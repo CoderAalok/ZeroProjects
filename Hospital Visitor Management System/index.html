@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A role-based hospital visitor management system for secure visitor registration, approvals, and entry tracking.">
+  <title>Hospital Visitor Management System</title>
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Font Awesome 6.5 Icon Library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+  <!-- Keyboard Accessibility Skip Link -->
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- Top System Header (Compact single-row height, Light background) -->
+  <header class="site-header">
+    <div class="header-container">
+      
+      <!-- Left Branding -->
+      <div class="brand-section">
+        <img src="red-cross.png" alt="Hospital Red Cross Logo" class="brand-logo-img">
+        <p class="site-branding">Hospital Visitor Management System</p>
+      </div>
+
+      <!-- Top-right information controls: About and Help buttons -->
+      <div class="header-utility-links" role="group" aria-label="Quick information">
+        <button type="button" class="header-utility-btn" onclick="document.getElementById('modal-about').showModal()">
+          About
+        </button>
+        
+        <button type="button" class="header-utility-btn" onclick="document.getElementById('modal-help').showModal()">
+          Help
+        </button>
+        
+      </div>
+    </div>
+
+  </header>
+
+  <!-- Portal Navigation -->
+  <nav class="portal-nav" aria-label="Main Navigation">
+    <div class="nav-container">
+      <ul class="portal-tabs" role="tablist">
+        <li role="presentation">
+          <button type="button" role="tab" id="tab-home" aria-selected="true" aria-controls="portal-home" tabindex="0" class="tab-btn active">
+            <i class="fa-solid fa-house" aria-hidden="true"></i> Home
+          </button>
+        </li>
+
+        <li role="presentation">
+          <button type="button" role="tab" id="tab-visitor" aria-selected="false" aria-controls="portal-visitor" tabindex="-1" class="tab-btn">
+            <img src="visitor-icon.png" alt="" class="tab-btn-img" aria-hidden="true"> Visitor Portal
+          </button>
+        </li>
+        
+        <li role="presentation">
+          <button type="button" role="tab" id="tab-staff" aria-selected="false" aria-controls="portal-staff" tabindex="-1" class="tab-btn">
+            <img src="staff-icon.png" alt="" class="tab-btn-img" aria-hidden="true"> Staff / Admin Portal
+            <span id="pending-count-badge" class="badge badge-pending" hidden><span class="sr-only">Pending requests: </span><span id="pending-count-value">0</span></span>
+          </button>
+        </li>
+        
+        <li role="presentation">
+          <button type="button" role="tab" id="tab-patient" aria-selected="false" aria-controls="portal-patient" tabindex="-1" class="tab-btn">
+            <img src="patient-icon.png" alt="" class="tab-btn-img" aria-hidden="true"> Patient Portal
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main id="main-content" class="main-container">
+
+    <!-- Global Toast / Alert Notifications (Top-Right Fixed Position) -->
+    <div id="global-toast" class="toast" role="alert" hidden>
+      <i class="fa-solid fa-circle-info toast-icon" aria-hidden="true"></i>
+      <span id="toast-message">Notification message</span>
+      <button type="button" class="toast-close" onclick="HVMSApp.hideToast()" aria-label="Close notification">&times;</button>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- 1. HOME PORTAL (REDESIGNED)                                         -->
+    <!-- =================================================================== -->
+    <section id="portal-home" class="portal-section active" role="tabpanel" aria-labelledby="tab-home">
+      <h1 class="sr-only">Hospital Visitor Management System home</h1>
+
+      <!-- Hero: short message + the two facts every visitor needs -->
+      <div class="hero-card home-hero">
+        <div class="hero-content">
+          <h2 id="hero-title">Safe, Verified &amp; Efficient Hospital Visitor Management</h2>
+          <p class="hero-desc">Register online, verify with a mobile OTP, and get a digital pass for entry.</p>
+          <ul class="hero-info">
+            <li><i class="fa-regular fa-clock" aria-hidden="true"></i> Visiting hours: 09:00 AM &ndash; 09:00 PM</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Portal choice comes first -->
+      <section class="portal-access-card home-portals" aria-labelledby="portal-access-title">
+        <h2 id="portal-access-title" class="home-heading">Select Your Portal</h2>
+        <div class="portal-cards-grid">
+          <div class="access-card">
+            <div class="access-card-icon"><img src="visitor-icon.png" alt="" class="access-card-img"></div>
+            <h3>Visitor</h3>
+            <p>Register, request a visit and get your digital pass.</p>
+            <button type="button" class="btn btn-primary btn-block" onclick="HVMSApp.switchPortal('visitor')">Enter Visitor Portal &rarr;</button>
+          </div>
+
+          <div class="access-card">
+            <div class="access-card-icon"><img src="staff-icon.png" alt="" class="access-card-img"></div>
+            <h3>Staff / Admin</h3>
+            <p>Approve requests, verify passes and monitor visitors.</p>
+            <button type="button" class="btn btn-primary btn-block" onclick="HVMSApp.switchPortal('staff')">Enter Staff Portal &rarr;</button>
+          </div>
+
+          <div class="access-card">
+            <div class="access-card-icon"><img src="patient-icon.png" alt="" class="access-card-img"></div>
+            <h3>Patient</h3>
+            <p>See who is visiting you and your visit history.</p>
+            <button type="button" class="btn btn-primary btn-block" onclick="HVMSApp.switchPortal('patient')">Enter Patient Portal &rarr;</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- How it works (visitors) -->
+      <section class="card how-it-works-card" aria-labelledby="how-it-works-title">
+        <header class="card-header text-center">
+          <h2 id="how-it-works-title">How It Works</h2>
+          <p class="subtitle">Four quick steps for visitors, from registration to entry.</p>
+        </header>
+        <ol class="workflow-steps-grid">
+          <li class="workflow-step-box"><span class="workflow-num">1</span><h3>Register</h3><p>Enter your name and 10-digit mobile number.</p></li>
+          <li class="workflow-step-box"><span class="workflow-num">2</span><h3>Verify OTP</h3><p>Confirm with the 6-digit code sent to your mobile.</p></li>
+          <li class="workflow-step-box"><span class="workflow-num">3</span><h3>Pick Patient &amp; Slot</h3><p>Choose who you are visiting and a time slot.</p></li>
+          <li class="workflow-step-box"><span class="workflow-num">4</span><h3>Show Your Pass</h3><p>Present your QR pass at the security desk.</p></li>
+        </ol>
+      </section>
+
+      <!-- Visiting rules at a glance -->
+      <section class="card rules-card" aria-labelledby="visiting-rules-title">
+        <h2 id="visiting-rules-title" class="home-heading">Visiting Rules at a Glance</h2>
+        <ul class="rules-grid">
+          <li><i class="fa-solid fa-user-group" aria-hidden="true"></i><span><strong>Capacity</strong> General Ward: 3 visitors. ICU &amp; Special: 1 at a time.</span></li>
+          <li><i class="fa-solid fa-hourglass-half" aria-hidden="true"></i><span><strong>Duration</strong> Up to 60 minutes per visit.</span></li>
+          <li><i class="fa-solid fa-eye-slash" aria-hidden="true"></i><span><strong>Privacy</strong> No ID stored. Phone numbers are masked.</span></li>
+          <li><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span><strong>Overdue</strong> Security is alerted when a visit runs long.</span></li>
+        </ul>
+      </section>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- 2. VISITOR PORTAL                                                   -->
+    <!-- =================================================================== -->
+    <section id="portal-visitor" class="portal-section" role="tabpanel" aria-labelledby="tab-visitor" hidden>
+      <h1 class="sr-only">Visitor portal</h1>
+      
+      <!-- Visitor Workflow Stepper -->
+      <ol class="stepper" aria-label="Registration Progress">
+        <li id="step-node-1" class="step-item active" aria-current="step">
+          <span class="step-num">1</span>
+          <span class="step-text">Register Details</span>
+        </li>
+        
+        <li id="step-node-2" class="step-item">
+          <span class="step-num">2</span>
+          <span class="step-text">OTP Verification</span>
+        </li>
+        
+        <li id="step-node-3" class="step-item">
+          <span class="step-num">3</span>
+          <span class="step-text">Select Patient</span>
+        </li>
+        
+        <li id="step-node-4" class="step-item">
+          <span class="step-num">4</span>
+          <span class="step-text">Visiting Time</span>
+        </li>
+        
+        <li id="step-node-5" class="step-item">
+          <span class="step-num">5</span>
+          <span class="step-text">Pass &amp; Status</span>
+        </li>
+      </ol>
+
+      <!-- STEP 1: Registration Form -->
+      <section id="visitor-step-1" class="card wizard-card compact-wizard-card" aria-labelledby="visitor-step-1-title">
+        <div class="card-header">
+          <h2 id="visitor-step-1-title">Step 1: Visitor Registration</h2>
+          <p class="subtitle">Enter your name and mobile number to verify your identity.</p>
+        </div>
+        
+        <form id="form-visitor-register" novalidate>
+          <div class="form-group">
+            <label for="reg-name">Full Name <span class="required" aria-hidden="true">*</span></label>
+            <input type="text" id="reg-name" name="regName" placeholder="e.g. Alice" required autocomplete="name" aria-describedby="err-reg-name">
+            <span class="field-error" id="err-reg-name" role="alert"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="reg-mobile">Mobile Number <span class="required" aria-hidden="true">*</span></label>
+            <div class="mobile-input-group">
+              <span class="prefix-addon">+91</span>
+              <input type="tel" id="reg-mobile" name="regMobile" placeholder="10-digit mobile number" maxlength="10" inputmode="numeric" required autocomplete="tel-national" aria-describedby="hint-reg-mobile err-reg-mobile">
+            </div>
+            
+            <span class="field-hint" id="hint-reg-mobile">We will send a 6-digit One-Time Password (OTP) to this number.</span>
+            <span class="field-error" id="err-reg-mobile" role="alert"></span>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-lg">
+              Request OTP &rarr;
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- STEP 2: OTP Verification -->
+      <section id="visitor-step-2" class="card wizard-card otp-card" aria-labelledby="visitor-step-2-title" hidden>
+        <div class="card-header text-center">
+          <h2 id="visitor-step-2-title">Verify Your Mobile Number <i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i></h2>
+          <p class="subtitle">
+            We sent a 6-digit verification code to
+            <strong id="otp-target-mobile">+91 **********</strong>
+          </p>
+        </div>
+
+        <!-- Demo OTP Notice -->
+        <div id="demo-otp-banner" class="alert alert-info">
+          <span class="alert-icon" aria-hidden="true">💡</span>
+          <div>
+            <strong>Demo Mode Notice:</strong>
+            <span>Your verification code is <strong id="demo-otp-code" class="otp-highlight">------</strong></span>
+          </div>
+          
+        </div>
+
+        <form id="form-verify-otp" novalidate>
+          <div class="form-group text-center">
+            <label for="otp-input">Enter 6-Digit Verification Code <span class="required" aria-hidden="true">*</span></label>
+            <input
+              type="text"
+              id="otp-input"
+              name="otpInput"
+              class="otp-digit-field"
+              placeholder="000000"
+              maxlength="6"
+              inputmode="numeric"
+              autocomplete="one-time-code"
+              pattern="[0-9]{6}"
+              aria-describedby="err-otp"
+              required
+            >
+            <span class="field-error" id="err-otp" role="alert"></span>
+          </div>
+
+          <!-- Timer & Status Badge -->
+          <div class="otp-status-wrapper">
+            <div class="otp-status-badge">
+              <i class="fa-regular fa-clock" aria-hidden="true"></i>
+              <span>Code expires in:</span>
+              <strong id="otp-timer">05:00</strong>
+            </div>
+          </div>
+
+          <!-- Actions: Left (Back), Center (Resend), Right (Verify) -->
+          <div class="form-actions otp-actions">
+            <button type="button" class="btn btn-secondary" onclick="HVMSApp.goToVisitorStep(1)">
+              <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back
+            </button>
+
+            <button type="button" id="btn-resend-otp" class="btn btn-outline" onclick="HVMSApp.resendOTP()" disabled>
+              <i class="fa-solid fa-rotate-right" aria-hidden="true"></i> Resend
+            </button>
+
+            <button type="submit" class="btn btn-primary">
+              Verify <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </button>
+            
+          </div>
+        </form>
+      </section>
+
+      <!-- STEP 3: Patient Selection Card -->
+      <section id="visitor-step-3" class="card wizard-card compact-wizard-card" aria-labelledby="visitor-step-3-title" hidden>
+        <div class="card-header">
+          <h2 id="visitor-step-3-title">Step 3: Search &amp; Select Patient</h2>
+          <p class="subtitle">Find the patient you intend to visit at the hospital.</p>
+        </div>
+
+        <div class="search-box-wrap">
+          <label for="patient-search-input" class="sr-only">Search Patient</label>
+          <input type="search" id="patient-search-input" placeholder="Search by patient name, patient ID, or ward (e.g., Raj Kumar, P101, ICU)..." oninput="HVMSApp.onPatientSearchInput(this.value)">
+        </div>
+
+        <div id="patient-search-results" class="patient-grid" role="region" aria-label="Patient search results" aria-live="polite">
+          <!-- Dynamically populated patient cards -->
+        </div>
+
+        <div id="selected-patient-summary" class="selected-summary-box" hidden>
+          <h3>Selected Patient: <span id="sel-patient-name"></span></h3>
+          <p>Ward &amp; Room: <strong id="sel-patient-room"></strong> | Capacity Status: <span id="sel-patient-capacity"></span></p>
+        </div>
+
+        <div class="form-actions step-actions-between">
+          <button type="button" class="btn btn-secondary" onclick="HVMSApp.goToVisitorStep(2)">
+            &larr; Back
+          </button>
+          
+          <button type="button" id="btn-confirm-patient" class="btn btn-primary" onclick="HVMSApp.confirmPatientSelection()" disabled>
+            Next &rarr;
+          </button>
+          
+        </div>
+      </section>
+
+      <!-- STEP 4: Select Visiting Time -->
+      <section id="visitor-step-4" class="card wizard-card compact-wizard-card" aria-labelledby="visitor-step-4-title" hidden>
+        <div class="card-header">
+          <h2 id="visitor-step-4-title">Step 4: Select Visiting Date &amp; Time Slot</h2>
+          <p class="subtitle">Choose a scheduled slot within hospital visiting hours (09:00 AM - 09:00 PM).</p>
+        </div>
+
+        <form id="form-visit-slot" novalidate>
+          <div class="form-group">
+            <label for="visit-date-input">Visiting Date <span class="required" aria-hidden="true">*</span></label>
+            <input type="date" id="visit-date-input" name="visitDate" required aria-describedby="err-visit-date">
+            <span class="field-error" id="err-visit-date" role="alert"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="visit-slot-select">Select Available Time Slot <span class="required" aria-hidden="true">*</span></label>
+            <select id="visit-slot-select" name="timeSlot" required aria-describedby="err-visit-slot">
+              <option value="" disabled selected>-- Select Available Time Slot --</option>
+              <option value="10:00 - 11:00 AM">10:00 AM - 11:00 AM (Morning Visiting Slot)</option>
+              <option value="11:30 AM - 12:30 PM">11:30 AM - 12:30 PM (Midday Visiting Slot)</option>
+              <option value="04:00 - 05:00 PM">04:00 PM - 05:00 PM (Evening Visiting Slot)</option>
+              <option value="05:00 - 06:00 PM">05:00 PM - 06:00 PM (Peak Evening Slot)</option>
+              <option value="06:30 - 07:30 PM">06:30 PM - 07:30 PM (Late Visiting Slot)</option>
+            </select>
+            <span class="field-error" id="err-visit-slot" role="alert"></span>
+          </div>
+
+          <div class="form-actions step-actions-between">
+            <button type="button" class="btn btn-secondary" onclick="HVMSApp.goToVisitorStep(3)">
+              &larr; Back
+            </button>
+            
+            <button type="submit" class="btn btn-primary">
+              Submit &rarr;
+            </button>
+            
+          </div>
+        </form>
+      </section>
+
+      <!-- STEP 5: Request Status & Visitor Pass Dashboard -->
+      <section id="visitor-step-5" class="card wizard-card compact-wizard-card" aria-labelledby="visitor-step-5-title" hidden>
+        <div class="card-header text-center">
+          <h2 id="visitor-step-5-title">Step 5: Visit Requests &amp; Visitor Pass</h2>
+          <p class="subtitle">Monitor approval status and view digital visitor pass for entries.</p>
+        </div>
+
+        <div id="visitor-session-banner" class="session-info-bar">
+          <span>Active Visitor Session: <strong id="visitor-session-name">---</strong> (<span id="visitor-session-mobile">---</span>)</span>
+        </div>
+
+        <div id="visitor-requests-list" class="requests-container">
+          <!-- Dynamically populated visit request cards & pass displays -->
+        </div>
+
+        <div class="step-done-actions text-center">
+          <button type="button" class="btn btn-primary btn-lg step-done-button" onclick="HVMSApp.startNewRegistration()">
+            <i class="fa-solid fa-check-circle" aria-hidden="true"></i> Done
+          </button>
+          
+        </div>
+      </section>
+
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- 2. STAFF / ADMIN PORTAL                                             -->
+    <!-- =================================================================== -->
+    <section id="portal-staff" class="portal-section" role="tabpanel" aria-labelledby="tab-staff" hidden>
+      <h1 class="sr-only">Staff and admin portal</h1>
+      
+      <!-- Staff Login Form (When not authenticated) -->
+      <section id="staff-login-card" class="card auth-card" aria-labelledby="staff-login-title">
+        <div class="card-header text-center">
+          <h2 id="staff-login-title">Staff / Security Login 🔐</h2>
+          <p class="subtitle">Access control desk for verifying requests, generating passes, and tracking active visitors.</p>
+        </div>
+
+        <form id="form-staff-login" novalidate>
+          <section class="form-group">
+            <label for="staff-username">Username <span class="required">*</span></label>
+            <input type="text" id="staff-username" placeholder="e.g. staff or admin" required autocomplete="username">
+          </section>
+          
+          <section class="form-group">
+            <label for="staff-password">Password <span class="required">*</span></label>
+            <input type="password" id="staff-password" placeholder="Enter password" required autocomplete="current-password">
+          </section>
+          
+          <section class="form-actions">
+            <button type="submit" class="btn btn-primary btn-block">Login to Control Desk</button>
+          </section>
+          
+        </form>
+
+        <section class="demo-credentials-box">
+          <h3 id="demo-login">Demo Login</h3>
+          <button type="button" class="btn btn-sm btn-outline" onclick="HVMSApp.quickStaffLogin('staff', 'staff123')"><span aria-hidden="true">🔑</span> Login as Staff</button>
+          <button type="button" class="btn btn-sm btn-outline" onclick="HVMSApp.quickStaffLogin('admin', 'admin123')"><span aria-hidden="true">⚡</span> Login as Admin</button>
+        </section>
+        
+      </section>
+
+      <!-- Authenticated Staff Dashboard -->
+      <div id="staff-dashboard" hidden>
+        <h2 class="sr-only">Staff control desk</h2>
+        
+        <!-- Staff Header Bar -->
+        <header class="staff-header-bar">
+          <div class="staff-profile">
+            <span class="profile-avatar" aria-hidden="true">👤</span>
+            <div>
+              <h3 id="logged-staff-name">Staff Member</h3>
+              <span id="logged-staff-role" class="badge badge-role">STAFF</span>
+            </div>
+            
+          </div>
+          
+          <button type="button" class="btn btn-sm btn-outline-danger" onclick="HVMSApp.staffLogout()">Logout</button>
+        </header>
+
+        <!-- Staff Sub-Navigation -->
+        <div class="staff-subnav" role="tablist" aria-label="Staff modules">
+          <button type="button" role="tab" id="staff-tab-pending" aria-selected="true" aria-controls="staff-subtab-pending" tabindex="0" class="subnav-btn active" onclick="HVMSApp.switchStaffTab('pending')">
+            <span aria-hidden="true">⏳</span> Pending Requests <span id="count-pending" class="badge badge-count">0</span>
+          </button>
+          <button type="button" role="tab" id="staff-tab-verify" aria-selected="false" aria-controls="staff-subtab-verify" tabindex="-1" class="subnav-btn" onclick="HVMSApp.switchStaffTab('verify')">
+            <span aria-hidden="true">🔍</span> Verify Pass &amp; Entry
+          </button>
+          <button type="button" role="tab" id="staff-tab-active" aria-selected="false" aria-controls="staff-subtab-active" tabindex="-1" class="subnav-btn" onclick="HVMSApp.switchStaffTab('active')">
+            <span aria-hidden="true">🟢</span> Active Visitors <span id="count-active" class="badge badge-count">0</span>
+          </button>
+          <button type="button" role="tab" id="staff-tab-records" aria-selected="false" aria-controls="staff-subtab-records" tabindex="-1" class="subnav-btn" onclick="HVMSApp.switchStaffTab('records')">
+            <span aria-hidden="true">📋</span> Search &amp; Historical Records
+          </button>
+          <button type="button" role="tab" id="staff-tab-audit" aria-selected="false" aria-controls="staff-subtab-audit" tabindex="-1" class="subnav-btn" onclick="HVMSApp.switchStaffTab('audit')">
+            <span aria-hidden="true">📜</span> Audit Log
+          </button>
+        </div>
+
+        <!-- Sub-Tab 1: Pending Requests -->
+        <section id="staff-subtab-pending" class="card staff-subtab-card" role="tabpanel" aria-labelledby="staff-tab-pending">
+          <div class="card-header">
+            <h3>Pending Visitor Requests</h3>
+            <p class="subtitle">Review visitor identity, patient association, and approve or reject requests.</p>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <caption class="sr-only">Pending visitor requests</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Visit ID</th>
+                  <th scope="col">Visitor Name</th>
+                  <th scope="col">Mobile Number</th>
+                  <th scope="col">Patient &amp; Room</th>
+                  <th scope="col">Requested Slot</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tbl-pending-requests">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+          <p id="pending-empty-msg" class="empty-msg" hidden>No pending visit requests at this time.</p>
+        </section>
+
+        <!-- Sub-Tab 2: Verify Pass & Record Entry -->
+        <section id="staff-subtab-verify" class="card staff-subtab-card" role="tabpanel" aria-labelledby="staff-tab-verify" hidden>
+          <div class="card-header">
+            <h3>Visitor Pass Entry Verification</h3>
+            <p class="subtitle">Scan QR Code or enter Visitor Pass ID (e.g. VP-1001) to verify validity before granting hospital entry.</p>
+          </div>
+
+          <div class="verifier-container">
+            <div class="verify-input-group">
+              <label for="pass-scan-input">Pass ID or QR Payload</label>
+              
+              <div class="input-with-btn">
+                <input type="text" id="pass-scan-input" placeholder="e.g. VP-1001" autocomplete="off">
+                <button type="button" class="btn btn-primary" onclick="HVMSApp.verifyAndGrantEntry()">Verify</button>
+              </div>
+              
+            </div>
+
+            <div class="quick-sample-passes">
+              <span>Quick Test Passes:</span>
+              <button type="button" class="btn btn-xs btn-outline" onclick="document.getElementById('pass-scan-input').value='VP-1001'">VP-1001 (Active Sample)</button>
+            </div>
+          </div>
+
+          <div id="verification-result-box" class="result-box" hidden>
+            <!-- Displays entry check result -->
+          </div>
+        </section>
+
+        <!-- Sub-Tab 3: Active Visitors -->
+        <section id="staff-subtab-active" class="card staff-subtab-card" role="tabpanel" aria-labelledby="staff-tab-active" hidden>
+          <div class="card-header">
+            <h3>Active Visitors Currently Inside Hospital</h3>
+            <p class="subtitle">Real-time tracking of visitors who have checked in but not yet checked out.</p>
+          </div>
+          
+          <div class="table-responsive">
+            <table class="data-table">
+              <caption class="sr-only">Active hospital visitors</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Pass ID</th>
+                  <th scope="col">Visitor Name</th>
+                  <th scope="col">Masked Mobile</th>
+                  <th scope="col">Patient &amp; Room</th>
+                  <th scope="col">Entry Time</th>
+                  <th scope="col">Elapsed Time</th>
+                  <th scope="col">Overdue Flag</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody id="tbl-active-visitors">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+          <p id="active-empty-msg" class="empty-msg" hidden>No active visitors currently inside the hospital.</p>
+        </section>
+
+        <!-- Sub-Tab 4: Search & Records -->
+        <section id="staff-subtab-records" class="card staff-subtab-card" role="tabpanel" aria-labelledby="staff-tab-records" hidden>
+          <div class="card-header">
+            <h3>Search &amp; Historical Visitor Records</h3>
+            <p class="subtitle">Search all historical visit logs. Sensitive mobile numbers are masked by default.</p>
+          </div>
+
+          <div class="filter-bar">
+            <div class="filter-group flex-grow">
+              <label for="search-records-query">Search Query</label>
+              <input type="search" id="search-records-query" placeholder="Search visitor name, patient, pass ID, mobile..." oninput="HVMSApp.renderSearchRecords()">
+            </div>
+            
+            <div class="filter-group">
+              <label for="search-records-status">Status Filter</label>
+              <select id="search-records-status" onchange="HVMSApp.renderSearchRecords()">
+                
+                <option value="ALL">All Statuses</option>
+                <option value="PENDING">Pending</option>
+                <option value="APPROVED">Approved</option>
+                <option value="ACTIVE">Active (Inside)</option>
+                <option value="EXITED">Exited</option>
+                <option value="REJECTED">Rejected</option>
+                <option value="CANCELLED">Cancelled</option>
+                
+              </select>
+              
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <caption class="sr-only">Historical visitor records</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Visit ID</th>
+                  <th scope="col">Pass ID</th>
+                  <th scope="col">Visitor Name</th>
+                  <th scope="col">Mobile (Masked)</th>
+                  <th scope="col">Patient Name</th>
+                  <th scope="col">Visit Date</th>
+                  <th scope="col">Entry Time</th>
+                  <th scope="col">Exit Time</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody id="tbl-search-records">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Sub-Tab 5: Audit Log -->
+        <section id="staff-subtab-audit" class="card staff-subtab-card" role="tabpanel" aria-labelledby="staff-tab-audit" hidden>
+          <div class="card-header">
+            <h3>Staff Audit Logs</h3>
+            <p class="subtitle">Complete audit trail recording all staff approvals, rejections, entries, and exits.</p>
+          </div>
+          
+          <div class="table-responsive">
+            <table class="data-table">
+              <caption class="sr-only">Staff audit log</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Log ID</th>
+                  <th scope="col">Timestamp</th>
+                  <th scope="col">Staff Member</th>
+                  <th scope="col">Action</th>
+                  <th scope="col">Visit ID</th>
+                  <th scope="col">Details</th>
+                </tr>
+              </thead>
+              <tbody id="tbl-audit-logs">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- 3. PATIENT PORTAL                                                   -->
+    <!-- =================================================================== -->
+    <section id="portal-patient" class="portal-section" role="tabpanel" aria-labelledby="tab-patient" hidden>
+      <h1 class="sr-only">Patient portal</h1>
+    
+      <!-- Top Patient Header: 2 Standalone Inline Cards -->
+      <div class="patient-header-flex-container">
+        
+        <!-- Left Block Card: Profile Image & Switcher -->
+        <section class="card patient-left-profile-block" aria-label="Patient profile selector">
+          <div class="patient-profile-img-box">
+            <img src="patient-icon.png" alt="" class="patient-profile-img">
+          </div>
+          
+          <div class="patient-switch-wrapper">
+            <label for="patient-account-select" class="sr-only">Switch Patient Profile</label>
+            <select id="patient-account-select" class="patient-switch-btn-select" onchange="HVMSApp.onPatientPortalChange(this.value)">
+            </select>
+          </div>
+        </section>
+
+        <!-- Right Block Card: Patient Details -->
+        <section class="card patient-right-info-block" aria-labelledby="patient-details-title">
+          <header class="patient-info-header-title">
+            <h2 id="patient-details-title">Patient Information &amp; Details</h2>
+          </header>
+          <hr class="divider">
+          
+          <dl class="patient-simple-details-list">
+            <div class="simple-detail-row">
+              <dt class="detail-label">Patient ID</dt>
+              <dd id="patient-view-id" class="detail-value">P101</dd>
+            </div>
+
+            <div class="simple-detail-row">
+              <dt class="detail-label">Name</dt>
+              <dd id="patient-view-name" class="detail-value">Raj Kumar</dd>
+            </div>
+
+            <div class="simple-detail-row">
+              <dt class="detail-label">Ward</dt>
+              <dd id="patient-view-ward" class="detail-value">General Ward</dd>
+            </div>
+
+            <div class="simple-detail-row">
+              <dt class="detail-label">Room number</dt>
+              <dd id="patient-view-room" class="detail-value">204-A</dd>
+            </div>
+          </dl>
+        </section>
+
+      </div>
+
+      <!-- Block 2: Active & Scheduled Visitors -->
+      <section class="card patient-block-card" aria-labelledby="active-scheduled-title">
+        <div class="card-header">
+          <h2 id="active-scheduled-title"><span aria-hidden="true">🟢</span> Active &amp; Scheduled Visitors</h2>
+          <p class="subtitle">Visitors currently inside the hospital or scheduled to visit today.</p>
+        </div>
+        
+        <div class="table-responsive">
+          <table class="data-table">
+            <caption class="sr-only">Active and scheduled visitors</caption>
+            <thead>
+              <tr>
+                <th scope="col">Visitor Name</th>
+                <th scope="col">Visit Date</th>
+                <th scope="col">Time Slot</th>
+                <th scope="col">Status</th>
+                <th scope="col">Entry Time</th>
+                <th scope="col">Exit Time</th>
+              </tr>
+            </thead>
+            <tbody id="tbl-active-scheduled-visitors">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+        <p id="patient-active-scheduled-empty" class="empty-msg" hidden>No active or scheduled visitors found for this patient.</p>
+      </section>
+
+      <!-- Block 3: Past Visitors History -->
+      <section class="card patient-block-card" aria-labelledby="past-visitors-title">
+        <div class="card-header">
+          <h2 id="past-visitors-title"><span aria-hidden="true">📜</span> Past Visitor History</h2>
+          <p class="subtitle">Completed, rejected, or cancelled visitor records.</p>
+        </div>
+        
+        <div class="table-responsive">
+          <table class="data-table">
+            <caption class="sr-only">Past visitor history</caption>
+            <thead>
+              <tr>
+                <th scope="col">Visitor Name</th>
+                <th scope="col">Visit Date</th>
+                <th scope="col">Time Slot</th>
+                <th scope="col">Status</th>
+                <th scope="col">Entry Time</th>
+                <th scope="col">Exit Time</th>
+              </tr>
+            </thead>
+            <tbody id="tbl-past-visitors">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+        
+        <p id="patient-past-empty" class="empty-msg" hidden>No past visitor records for this patient.</p>
+      </section>
+
+    </section>
+
+  </main>
+
+  <!-- Rejection Reason Modal Dialog -->
+  <dialog id="modal-reject-reason" class="modal-dialog" aria-labelledby="reject-modal-title">
+    <div class="modal-content">
+      <header class="modal-header">
+        <h2 id="reject-modal-title">Reject Visit Request</h2>
+        <button type="button" class="modal-close" onclick="HVMSApp.closeRejectModal()" aria-label="Close rejection dialog">&times;</button>
+      </header>
+      
+      <form id="form-reject-reason" onsubmit="HVMSApp.confirmRejectRequest(event)">
+        <input type="hidden" id="reject-visit-id">
+       
+        <div class="form-group">
+          <label for="reject-reason-text">Reason for Rejection <span class="required">*</span></label>
+          <textarea id="reject-reason-text" rows="3" placeholder="Provide a reason (e.g. Outside visiting hours, patient undergoing procedure, max capacity reached)..." required></textarea>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="HVMSApp.closeRejectModal()">Cancel</button>
+          <button type="submit" class="btn btn-danger">Confirm Rejection</button>
+        </div>
+        
+      </form>
+      
+    </div>
+    
+  </dialog>
+
+  <!-- About System Dialog: opened by the header About button -->
+  <dialog id="modal-about" class="modal-dialog info-dialog" aria-labelledby="about-modal-title">
+    <div class="modal-content">
+      <header class="modal-header">
+        <h2 id="about-modal-title"><i class="fa-solid fa-hospital" aria-hidden="true"></i> About This System</h2>
+        <button type="button" class="modal-close" onclick="document.getElementById('modal-about').close()" aria-label="Close about dialog">&times;</button>
+      </header>
+     
+      <p>The Hospital Visitor Management System helps the hospital register, verify, approve, and track visitor access securely.</p>
+      
+      <ul class="info-list">
+        <li>Mobile OTP verification protects visitor identity.</li>
+        <li>Digital QR passes enable quick entry verification.</li>
+        <li>Staff and patients see only the information relevant to their role.</li>
+      </ul>
+      
+    </div>
+    
+  </dialog>
+
+  <!-- Help and Visiting Policy Dialog: opened by the header Help button -->
+  <dialog id="modal-help" class="modal-dialog info-dialog" aria-labelledby="help-modal-title">
+    <div class="modal-content">
+      <header class="modal-header">
+        <h2 id="help-modal-title"><i class="fa-solid fa-circle-question" aria-hidden="true"></i> Help &amp; Visiting Policy</h2>
+        <button type="button" class="modal-close" onclick="document.getElementById('modal-help').close()" aria-label="Close help dialog">&times;</button>
+      </header>
+      
+      <h3>How to request a visit</h3>
+      <ol class="info-list">
+        <li>Register with your name and 10-digit mobile number.</li>
+        <li>Verify the one-time password sent to your phone.</li>
+        <li>Select the patient and an available time slot.</li>
+        <li>Show the approved digital pass at the visitor desk.</li>
+      </ol>
+      
+      <h3>Visiting rules</h3>
+      
+      <ul class="info-list">
+        <li>Standard visiting hours are 9:00 AM to 9:00 PM.</li>
+        <li>Visits are limited to 60 minutes unless staff approve otherwise.</li>
+        <li>Ward capacity limits and staff instructions must be followed.</li>
+        <li>For urgent assistance, contact the Visitor Management Desk.</li>
+      </ul>
+      
+    </div>
+    
+  </dialog>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    
+    <div class="footer-container">
+      
+      <address class="footer-info">
+        <p class="footer-title"><strong>City General Hospital</strong><span aria-hidden="true">•</span> Visitor Management Desk</p>
+        
+        <div class="footer-details">
+          
+          <p><i class="fa-solid fa-phone" aria-hidden="true"></i> <span>Emergency Helpline</span> <a href="tel:+9118001234567">+91 1800-123-4567</a></p>
+        
+        </div>
+        <p class="footer-copyright">&copy; 2026 City General Hospital. All rights reserved.</p>
+        
+      </address>
+      
+    </div>
+    
+  </footer>
+
+  <!-- Scripts -->
+  <script src="backend.js"></script>
+  <script src="qr-generator.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
