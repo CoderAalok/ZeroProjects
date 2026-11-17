@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Patient | CarePass Visitor Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6.5 Icon Library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/patient.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="top-bar">
+    <a class="brand" href="index.html">
+      <img src="images/red-cross.png" alt="" class="brand-logo-img">
+      CarePass
+    </a>
+    <nav aria-label="Portals">
+      <a href="visitor.html"><img src="images/visitor-icon.png" alt="" class="nav-icon" aria-hidden="true">Visitor</a>
+      <a href="staff.html"><img src="images/staff-icon.png" alt="" class="nav-icon" aria-hidden="true">Staff</a>
+      <a href="patient.html" aria-current="page"><img src="images/patient-icon.png" alt="" class="nav-icon" aria-hidden="true">Patient</a>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- Top Patient Header: 2 Standalone Inline Cards (Matched to first project) -->
+    <div class="patient-header-flex-container">
+      
+      <!-- Left Block Card: Profile Image & Switcher -->
+      <section class="card patient-left-profile-block" aria-label="Patient profile selector">
+        <div class="patient-profile-img-box">
+          <img src="images/patient-icon.png" alt="" class="patient-profile-img">
+        </div>
+        
+        <div class="patient-switch-wrapper">
+          <label for="patient-picker" class="patient-picker-label">Select Patient Profile</label>
+          <select id="patient-picker" class="patient-switch-btn-select"></select>
+        </div>
+      </section>
+
+      <!-- Right Block Card: Patient Details -->
+      <section class="card patient-right-info-block" aria-labelledby="patient-details-title">
+        <header class="patient-info-header-title">
+          <h1 id="patient-details-title">Patient Information &amp; Details</h1>
+        </header>
+        <hr class="divider">
+        
+        <dl class="patient-simple-details-list">
+          <div class="simple-detail-row">
+            <dt class="detail-label">Patient ID</dt>
+            <dd id="patient-view-id" class="detail-value">-</dd>
+          </div>
+
+          <div class="simple-detail-row">
+            <dt class="detail-label">Name</dt>
+            <dd id="patient-view-name" class="detail-value">-</dd>
+          </div>
+
+          <div class="simple-detail-row">
+            <dt class="detail-label">Ward</dt>
+            <dd id="patient-view-ward" class="detail-value">-</dd>
+          </div>
+
+          <div class="simple-detail-row">
+            <dt class="detail-label">Room number</dt>
+            <dd id="patient-view-room" class="detail-value">-</dd>
+          </div>
+        </dl>
+      </section>
+
+    </div>
+
+    <!-- Patient Visits Summary Stats -->
+    <dl class="stats" aria-label="Visit statistics">
+      <div><dt>Inside now</dt><dd id="count-inside">0</dd></div>
+      <div><dt>Upcoming</dt><dd id="count-upcoming">0</dd></div>
+      <div><dt>Past visits</dt><dd id="count-past">0</dd></div>
+    </dl>
+
+    <!-- Patient Visitors Data Table -->
+    <section class="table-section" aria-labelledby="visitors-table-title">
+      <div class="table-wrap">
+        <table>
+          <caption id="visitors-table-title">Visitors for this patient</caption>
+          <thead>
+            <tr><th scope="col">Visitor</th><th scope="col">Date</th><th scope="col">Slot</th><th scope="col">Status</th><th scope="col">Entry Time</th><th scope="col">Exit Time</th></tr>
+          </thead>
+          <tbody id="visitor-rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <p class="hint"><i class="fa-solid fa-lock" aria-hidden="true"></i> For patient privacy, visitor mobile numbers are strictly hidden on this page.</p>
+
+  </main>
+
+  <output id="toast"></output>
+
+  <!-- Site Footer (Matched to first project) -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <address class="footer-info">
+        <p class="footer-title"><strong>City General Hospital</strong><span aria-hidden="true">•</span> Visitor Management Desk</p>
+        <div class="footer-details">
+          <p><i class="fa-solid fa-phone" aria-hidden="true"></i> <span>Emergency Helpline</span> <a href="tel:+9118001234567">+91 1800-123-4567</a></p>
+        </div>
+        <p class="footer-copyright">&copy; 2026 City General Hospital. All rights reserved.</p>
+      </address>
+    </div>
+  </footer>
+
+  <!-- Load order matters: settings -> utilities -> storage -> rules -> display helpers -> this page -->
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/rules.js"></script>
+  <script src="js/helpers.js"></script>
+  <script src="js/patient.js"></script>
+</body>
+</html>

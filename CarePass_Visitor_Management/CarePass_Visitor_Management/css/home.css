@@ -1,0 +1,107 @@
+/* ==========================================================================
+   home.css - CarePass Visitor Management
+   Home / Landing Page Styles (Hero Section, Portal Selection Grid,
+   "How It Works" Steps, Demo Notes, and Home Responsive)
+   ========================================================================== */
+
+/* 1. HERO SECTION ---------------------------------------------------------- */
+.hero {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  align-items: center;
+  gap: 36px;
+  padding: 64px 48px;
+  border-radius: 28px;
+  color: #cfe6e3;
+  background:
+    radial-gradient(circle at 85% 20%, rgba(18, 163, 154, 0.45), transparent 45%),
+    var(--ink);
+  box-shadow: var(--shadow);
+}
+
+.hero h1 {
+  color: #fff;
+}
+
+.hero p {
+  max-width: 36em;
+  font-size: 1.15rem;
+}
+
+.hero .pass {
+  justify-self: center;
+  transform: rotate(3deg);
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+/* 2. PORTAL SELECTION GRID ------------------------------------------------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+}
+
+.card-icon-wrapper {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  margin-bottom: 16px;
+  border-radius: 16px;
+  background: var(--mint);
+}
+
+.portal-card-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  display: block;
+}
+
+/* 3. "HOW IT WORKS" NUMBERED STEPS ----------------------------------------- */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.steps li {
+  counter-increment: step;
+  padding: 20px 22px;
+  border-radius: 0 14px 14px 0;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--teal);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.steps li::before {
+  content: counter(step);
+  display: block;
+  font: 800 1.5rem var(--font-heading);
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+
+/* 4. HOME RESPONSIVE ------------------------------------------------------- */
+@media (max-width: 980px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 40px 28px;
+    gap: 28px;
+  }
+
+  .hero .pass {
+    justify-self: center;
+    transform: none;
+  }
+}

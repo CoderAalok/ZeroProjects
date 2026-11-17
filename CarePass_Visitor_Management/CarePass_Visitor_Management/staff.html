@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Staff Portal | CarePass Visitor Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6.5 Icon Library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/portal-split.css">
+  <link rel="stylesheet" href="css/staff.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="top-bar">
+    <a class="brand" href="index.html">
+      <img src="images/red-cross.png" alt="" class="brand-logo-img">
+      CarePass
+    </a>
+    <nav aria-label="Portals">
+      <a href="visitor.html"><img src="images/visitor-icon.png" alt="" class="nav-icon" aria-hidden="true">Visitor</a>
+      <a href="staff.html" aria-current="page"><img src="images/staff-icon.png" alt="" class="nav-icon" aria-hidden="true">Staff<span class="badge" id="nav-badge" hidden>0</span></a>
+      <a href="patient.html"><img src="images/patient-icon.png" alt="" class="nav-icon" aria-hidden="true">Patient</a>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- Staff Sign In in Split Layout (Enlarged Side & Frame) -->
+    <section id="login-section" class="portal-split-layout staff-split-layout" aria-labelledby="login-title">
+      
+      <!-- Left Side: Modern Hospital Reception Image & Security Highlights (Badge removed as requested) -->
+      <div class="split-image-panel">
+        <div class="image-panel-content">
+          <h1>Hospital Visitor Control &amp; Gate Desk</h1>
+          <p>Real-time visitor monitoring, request approvals, pass validation, and entry gate security management.</p>
+
+          <div class="panel-highlights">
+            <div class="highlight-item">
+              <i class="fa-solid fa-id-card-clip" aria-hidden="true"></i>
+              <div>
+                <strong>Entry Verification</strong>
+                <span>Check pass IDs instantly at the entry desk</span>
+              </div>
+            </div>
+
+            <div class="highlight-item">
+              <i class="fa-solid fa-list-check" aria-hidden="true"></i>
+              <div>
+                <strong>Approve &amp; Reject Requests</strong>
+                <span>Live review of submitted visitor requests</span>
+              </div>
+            </div>
+
+            <div class="highlight-item">
+              <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+              <div>
+                <strong>Overstay Alerts</strong>
+                <span>Automatic tracking for visits exceeding 60 minutes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Side: Enlarged Device Frame with Security Step Indicators -->
+      <div class="split-frame-wrapper staff-frame-wrapper">
+        
+        <!-- Security Status Indicators above Frame -->
+        <div class="split-step-indicator" aria-hidden="true">
+          <div class="step-dot active">
+            <span class="step-num"><i class="fa-solid fa-shield"></i></span>
+            <span class="step-label">Gate 1</span>
+          </div>
+          
+          <div class="step-connector active"></div>
+          <div class="step-dot active">
+            <span class="step-num"><i class="fa-solid fa-user-shield"></i></span>
+            <span class="step-label">Desk</span>
+          </div>
+          
+          <div class="step-connector active"></div>
+          <div class="step-dot active">
+            <span class="step-num"><i class="fa-solid fa-lock"></i></span>
+            <span class="step-label">Secure</span>
+          </div>
+        </div>
+
+        <!-- Enlarged Mobile Device Frame for Staff -->
+        <div class="mobile-frame-device staff-frame-device">
+          <div class="device-notch" aria-hidden="true"></div>
+
+          <!-- Staff Login Form -->
+          <div id="staff-login-box">
+            <div class="device-screen-header">
+              <img src="images/staff-icon.png" alt="" class="card-hero-icon" aria-hidden="true">
+              <h2 id="login-title">Staff sign in</h2>
+              <p class="hint">Security desk and administration control portal</p>
+            </div>
+
+            <form id="login-form">
+              <label>Username
+                <input name="username" required autocomplete="username" placeholder="e.g. staff" value="staff">
+              </label>
+              <div class="field">
+                <label for="staff-password-input">Password</label>
+                <div class="password-input-wrapper">
+                  
+                  <input 
+                    name="password"
+                    id="staff-password-input"
+                    type="password"
+                    required autocomplete="current-password"
+                    placeholder="e.g. staff123"
+                    value="staff123"
+                    > 
+                  <button 
+                    type="button"
+                    class="btn-toggle-password"
+                    id="btn-toggle-password"
+                    aria-label="Show password"
+                    title="Toggle password visibility"
+                    >
+                    <i class="fa-solid fa-eye" id="eye-icon" aria-hidden="true"></i>
+                  </button>
+                  
+                </div>
+                
+              </div>
+              <button class="btn full" type="submit">Sign in &rarr;</button>
+            </form>
+
+            <!-- Signed-in bar: shown below the button once logged in -->
+            <div id="staff-signed-in-box" hidden>
+              
+              <span class="signed-in-text">Signed in: <strong id="staff-container-name">Rajesh Kumar (Security Desk)</strong></span>
+              <button class="btn ghost small" id="staff-container-logout" type="button">Sign out</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Control desk (shown after login) -->
+    <div id="desk" hidden>
+
+      <div class="page-bar">
+        <h2>Control desk</h2>
+      </div>
+
+      <dl class="stats">
+        <div>
+          <dt>Pending</dt>
+          <dd id="stat-pending">0</dd>
+        </div>
+        
+        <div>
+          <dt>Inside now</dt>
+          <dd id="stat-inside">0</dd>
+        </div>
+        
+        <div class="warning">
+          <dt>Overdue (&gt;60 min)</dt>
+          <dd id="stat-overdue">0</dd>
+        </div>
+        
+        <div>
+          <dt>Visits today</dt>
+          <dd id="stat-today">0</dd>
+        </div>
+        
+      </dl>
+
+      <nav class="section-links" aria-label="Sections">
+        <a class="btn ghost small" href="#section-pending">Requests<span class="badge" id="link-badge" hidden>0</span></a>
+        <a class="btn ghost small" href="#section-entry">Entry check</a>
+        <a class="btn ghost small" href="#section-inside">Inside</a>
+        <a class="btn ghost small" href="#section-records">Records</a>
+        <a class="btn ghost small" href="#section-log">Audit log</a>
+      </nav>
+
+      <section id="section-pending" aria-labelledby="pending-title">
+        <div class="table-wrap">
+          <h2 id="pending-title" class="table-title">Pending requests<span class="badge" id="pending-badge" hidden>0</span></h2>
+          <table aria-labelledby="pending-title">
+            <thead>
+              <tr><th scope="col">Visit ID</th><th scope="col">Visitor</th><th scope="col">Mobile</th><th scope="col">Patient</th><th scope="col">Date</th><th scope="col">Slot</th><th scope="col">Action</th></tr>
+            </thead>
+            <tbody id="pending-rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="section-entry" class="card">
+        <h2>Entry check</h2>
+        <form id="entry-form" class="inline-form">
+          <label>Pass ID
+            <input id="pass-id" required placeholder="e.g. VST-1003">
+          </label>
+          <button class="btn" type="submit">Verify</button>
+        </form>
+        <output id="entry-message" data-ok="true"></output>
+      </section>
+
+      <section id="section-inside" aria-labelledby="inside-title">
+        <div class="table-wrap">
+          <h2 id="inside-title" class="table-title">Visitors inside now</h2>
+          <table aria-labelledby="inside-title">
+            <thead>
+              <tr><th scope="col">Pass ID</th><th scope="col">Visitor</th><th scope="col">Patient</th><th scope="col">Entered</th><th scope="col">Time inside</th><th scope="col">Status</th><th scope="col">Action</th></tr>
+            </thead>
+            <tbody id="inside-rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Records: searchable list of all visits -->
+      <section id="section-records" aria-labelledby="records-title">
+        <div class="records-header-group">
+          <h2 id="records-title">Records</h2>
+
+          <form id="records-filter" class="records-filter-bar-below" role="search" aria-label="Filter records">
+            <div class="filter-field">
+              <label for="search-text" class="filter-field-label">Search Patient Name or ID</label>
+              <input id="search-text" type="search" placeholder="e.g. Raj Kumar or P1">
+            </div>
+
+            <div class="filter-field filter-field-status">
+              <label for="search-status" class="filter-field-label">Status</label>
+              <select id="search-status">
+                <option value="">All</option>
+              </select>
+            </div>
+          </form>
+        </div>
+
+        <div class="table-wrap">
+          <table aria-labelledby="records-title">
+            <thead>
+              <tr><th scope="col">Visit ID</th><th scope="col">Visitor</th><th scope="col">Mobile</th><th scope="col">Patient</th><th scope="col">Date</th><th scope="col">In</th><th scope="col">Out</th><th scope="col">Status</th></tr>
+            </thead>
+            <tbody id="record-rows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Audit Log Section with 5-6 logs limit, Show More toggle, and Reset All Button -->
+      <section id="section-log" aria-labelledby="log-title">
+        <div class="table-wrap">
+          <h2 id="log-title" class="table-title">Audit log</h2>
+          <table aria-labelledby="log-title">
+            <thead>
+              <tr><th scope="col">Time</th><th scope="col">Who</th><th scope="col">Action</th><th scope="col">Visit ID</th></tr>
+            </thead>
+            <tbody id="log-rows"></tbody>
+          </table>
+        </div>
+
+        <div class="audit-log-footer-bar">
+          <div class="log-count-indicator">
+            <span id="log-count-text">Showing 0 of 0 logs</span>
+          </div>
+          <div class="log-actions">
+            <button class="btn ghost small" id="btn-toggle-logs" type="button" hidden>
+              <i class="fa-solid fa-chevron-down" id="toggle-log-icon"></i> <span id="toggle-log-text">Show more</span>
+            </button>
+            <button class="btn danger small" id="btn-reset-all-records" type="button" title="Reset all records and logs back to clean state">
+              <i class="fa-solid fa-rotate-left"></i> Reset all records &amp; logs
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Reject dialog -->
+    <dialog id="reject-dialog">
+      <form id="reject-form" method="dialog">
+        <h2>Reject request</h2>
+        <input type="hidden" id="reject-visit-id">
+        <label>Reason (shown to the visitor)
+          <textarea id="reject-reason" rows="3" required placeholder="e.g. Outside visiting hours or ward capacity reached"></textarea>
+        </label>
+        <div class="dialog-actions">
+          <button class="btn danger" type="submit">Reject request</button>
+          <button class="btn ghost" type="button" id="reject-cancel">Keep pending</button>
+        </div>
+      </form>
+    </dialog>
+
+  </main>
+
+  <output id="toast"></output>
+
+  <!-- Site Footer (Matched to first project) -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <address class="footer-info">
+        <p class="footer-title"><strong>City General Hospital</strong><span aria-hidden="true">•</span> Visitor Management Desk</p>
+        <div class="footer-details">
+          <p><i class="fa-solid fa-phone" aria-hidden="true"></i> <span>Emergency Helpline</span> <a href="tel:+9118001234567">+91 1800-123-4567</a></p>
+        </div>
+        <p class="footer-copyright">&copy; 2026 City General Hospital. All rights reserved.</p>
+      </address>
+    </div>
+  </footer>
+
+  <!-- Load order matters: settings -> utilities -> storage -> rules -> display helpers -> this page -->
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/rules.js"></script>
+  <script src="js/helpers.js"></script>
+  <script src="js/staff.js"></script>
+</body>
+</html>
