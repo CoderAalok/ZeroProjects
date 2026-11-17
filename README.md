@@ -73,29 +73,30 @@ PENDING ────────────────────────
 ## Project layout
 
 ```text
-CarePass_Visitor_Management/
-├── index.html                  Landing page and portal links
-├── visitor.html                Visitor registration and pass view
-├── staff.html                  Staff sign-in, request desk, and records
-├── patient.html                Patient profile and visitor history
-├── .editorconfig               Shared editor formatting defaults
-├── css/                        Page and shared styles
-│   ├── common.css              Design tokens and shared components
-│   ├── home.css                Landing page
-│   ├── portal-split.css        Shared visitor/staff layout
-│   ├── visitor.css             Visitor portal
-│   ├── staff.css               Staff portal
-│   └── patient.css             Patient portal
-├── js/                         Browser-side application logic
-│   ├── config.js               Settings, status constants, demo data
-│   ├── utils.js                Date/time, masking, and escaping helpers
-│   ├── storage.js              Persistence and data lookups
-│   ├── rules.js                Booking rules and status transitions
-│   ├── helpers.js              Shared DOM and display helpers
-│   ├── visitor.js              Visitor page behavior
-│   ├── staff.js                Staff page behavior
-│   └── patient.js              Patient page behavior
-└── images/                     Logos, portal icons, and page imagery
+ZeroProjects
+ ├──CarePass_Visitor_Management/
+    ├── index.html                  Landing page and portal links
+    ├── visitor.html                Visitor registration and pass view
+    ├── staff.html                  Staff sign-in, request desk, and records
+    ├── patient.html                Patient profile and visitor history
+    ├── .editorconfig               Shared editor formatting defaults
+    ├── css/                        Page and shared styles
+    │   ├── common.css              Design tokens and shared components
+    │   ├── home.css                Landing page
+    │   ├── portal-split.css        Shared visitor/staff layout
+    │   ├── visitor.css             Visitor portal
+    │   ├── staff.css               Staff portal
+    │   └── patient.css             Patient portal
+    ├── js/                         Browser-side application logic
+    │   ├── config.js               Settings, status constants, demo data
+    │   ├── utils.js                Date/time, masking, and escaping helpers
+    │   ├── storage.js              Persistence and data lookups
+    │   ├── rules.js                Booking rules and status transitions
+    │   ├── helpers.js              Shared DOM and display helpers
+    │   ├── visitor.js              Visitor page behavior
+    │   ├── staff.js                Staff page behavior
+    │   └── patient.js              Patient page behavior
+    └── images/                     Logos, portal icons, and page imagery
 ```
 
 ## Application architecture
