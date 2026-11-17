@@ -125,16 +125,6 @@ config.js → utils.js → storage.js → rules.js → helpers.js → page-speci
 - `helpers.js` contains shared DOM, toast, badge, and display functions.
 - The page script binds that functionality to its page's forms, controls, and rendering.
 
-### Where to make a change
-
-| Change | Start here |
-|---|---|
-| Settings, slots, limits, demo profiles | `js/config.js` |
-| Booking or entry validation | `js/rules.js` |
-| Persistence or data lookup | `js/storage.js` |
-| Shared visual component | `css/common.css` and, if needed, `js/helpers.js` |
-| Portal-specific layout or styles | Matching page CSS file |
-| Portal-specific interaction or rendering | Matching page JS file |
 
 ## Data model and business rules
 
