@@ -1,4 +1,4 @@
-# CarePass – Hospital Visitor Management System
+# Hospital Visitor Management System (CarePass)
 
 CarePass is a front-end hospital visitor management system built using **semantic HTML, CSS, and vanilla JavaScript**. It provides a digital process for managing hospital visits without requiring manual registration.
 
