@@ -60,19 +60,14 @@ When a visitor submits or cancels a request in another tab, the staff tab receiv
 
 ## Visit lifecycle
 
-```text
-                         approve                 record entry             record exit
-PENDING ─────────────────────────> APPROVED ───────────────────────> ACTIVE ─────────> EXITED
-   │                                  │
-   ├── reject ──> REJECTED            └── cancel ──> CANCELLED
-   └── cancel ──> CANCELLED
-```
+            Request                       ├────── APPROVED ───────> VERIFY ID ────────> ACTIVE ────────> EXITED
+[VISITOR] ───────────────> [STAFF/ADMIN]──│
+                                          ├────── REJECTED
 
 `PENDING`, `APPROVED`, and `ACTIVE` are open states. `REJECTED`, `CANCELLED`, and `EXITED` are closed states. Allowed transitions are declared in `TRANSITIONS` in `js/config.js` and enforced by `setStatus()` in `js/rules.js`.
 
 ## Project layout
 
-```text
 ZeroProjects
  ├──CarePass_Visitor_Management/
     ├── index.html                  Landing page and portal links
@@ -97,7 +92,6 @@ ZeroProjects
     │   ├── staff.js                Staff page behavior
     │   └── patient.js              Patient page behavior
     └── images/                     Logos, portal icons, and page imagery
-```
 
 ## Application architecture
 
@@ -114,9 +108,8 @@ ZeroProjects
 
 Interactive pages load scripts in this order because each layer uses the one before it:
 
-```text
 config.js → utils.js → storage.js → rules.js → helpers.js → page-specific script
-```
+
 
 - `config.js` defines shared constants and demo seed data.
 - `utils.js` contains pure formatting, date, masking, and HTML-escaping functions.

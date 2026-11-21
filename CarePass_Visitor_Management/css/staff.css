@@ -11,6 +11,10 @@
   font-size: 1.55rem;
 }
 
+.split-image-panel {
+  background-image: url('../images/hospital-reception.jpg');
+}
+
 /* 2. PASSWORD TOGGLE ------------------------------------------------------- */
 .password-input-wrapper {
   position: relative;

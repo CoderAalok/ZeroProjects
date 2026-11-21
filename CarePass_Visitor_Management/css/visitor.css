@@ -1,13 +1,8 @@
-/* ==========================================================================
-   visitor.css - CarePass Visitor Management
-   Visitor-only styles: multi-step flow, progress track, request cards, passes.
-   (The split layout and phone frame live in portal-split.css.)
-   ========================================================================== */
-
 /* 1. MULTI-STEP FLOW INSIDE VISITOR FRAME ---------------------------------- */
 .flow-step {
   animation: fadeIn 0.22s ease-in-out;
 }
+
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
@@ -223,4 +218,9 @@
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+/* Visitor left side image */
+.split-image-panel {
+  background-image: url('../images/hospital-bg.jpg');
 }

@@ -1,10 +1,3 @@
-/* ==========================================================================
-   portal-split.css - CarePass Visitor Management
-   Shared by the Visitor and Staff portals (they use the same layout):
-   hospital image panel + highlights, phone-style frame, step indicator.
-   Load order: common.css -> portal-split.css -> visitor.css / staff.css
-   ========================================================================== */
-
 /* 1. SPLIT PORTAL LAYOUT & RECEPTION PANEL --------------------------------- */
 .portal-split-layout {
   display: grid;
@@ -19,7 +12,6 @@
 }
 
 .split-image-panel {
-  background-image: url('../images/hospital-reception.jpg');
   background-size: cover;
   background-position: center center;
   position: relative;
