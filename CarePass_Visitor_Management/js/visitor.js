@@ -143,7 +143,7 @@ function passCard(visit, patient) {
         '<dt>Slot</dt><dd>' + escapeHtml(visit.slot) + '</dd>' +
       '</dl>' +
       '<div class="barcode" aria-hidden="true"></div>' +
-      passBadge +
+      '<small>Show this ID at the security desk</small>' +
     '</article>';
 }
 
@@ -160,7 +160,7 @@ function requestCard(visit, data) {
     : '';
 
   return '' +
-    '<article class="card visit' + (visit.visitorExited && isActive ? ' visit-self-exited' : '') + '">' +
+    '<article class="card visit">' +
       '<div>' +
         '<header>' +
           '<h3>' + escapeHtml(patient.name) + '</h3>' + statusChip(visit.status) +
