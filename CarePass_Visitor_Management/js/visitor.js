@@ -1,137 +1,146 @@
-/* 
-   visitor.js - Visitor portal (multi-step flow)
-   Step 1: Contact -> Step 2: OTP -> Step 3: Patient & Slot -> Step 4: Done
+/* Visitor portal - registration, verification, pass display, and status tracking */
 
-   FILE ORDER (look here first when debugging):
-     1. Constants & state
-     2. DOM references
-     3. Step navigation
-     4. Form setup (patients, date, slots)
-     5. Rendering of "my requests"
-     6. Actions (one per step)
-     7. Event listeners
-     8. Start-up
-
-   When the booking form is submitted (section 6, submitBooking) addVisit()
-   saves a PENDING visit. The staff portal sees that change and shows its red
-   notification badge.
-   */
-
-
-/* 1. CONSTANTS & STATE */
-
-/* Limits such as RECORD_PREVIEW_COUNT live in config.js. */
-
-let currentOtp = null;
-let visitor = readSessionJson('carepass_visitor'); // { name, mobile }
-let stepRendered = false;          // skip focus moves on the very first render
-let showAllRecords = false;        // request list: preview vs everything
-
-
-/* 2. DOM REFERENCES */
+/* Variables */
+let currentOtp = '';
+let visitor = readSession('carepass_visitor');
+let showAllRecords = false;
+let firstDraw = true;
 
 const stepPanels = [$('step-contact'), $('step-otp'), $('step-booking'), $('step-done')];
-const stepDots   = [$('dot-1'), $('dot-2'), $('dot-3'), $('dot-4')];
-const stepLinks  = [$('conn-1'), $('conn-2'), $('conn-3')];
+const stepDots = [$('dot-1'), $('dot-2'), $('dot-3'), $('dot-4')];
+const stepLinks = [$('conn-1'), $('conn-2'), $('conn-3')];
 
 const contactForm = $('contact-form');
-const otpForm     = $('otp-form');
+const otpForm = $('otp-form');
 const bookingForm = $('booking-form');
 
-
-/* 3. STEP NAVIGATION */
-
-/* Show one step (1-4) and update the progress dots. */
+/* Show one step (1 to 4) and update progress indicators */
 function setStep(step) {
   const index = step - 1;
   const isLast = index === stepPanels.length - 1;
 
-  stepPanels.forEach((panel, i) => { panel.hidden = i !== index; });
+  for (let i = 0; i < stepPanels.length; i++) {
+    stepPanels[i].hidden = i !== index;
 
-  stepDots.forEach((dot, i) => {
-    dot.classList.toggle('done', i < index || (isLast && i === index));
-    dot.classList.toggle('active', i === index);
-    if (i === index) dot.setAttribute('aria-current', 'step');
-    else dot.removeAttribute('aria-current');
-  });
-  stepLinks.forEach((link, i) => link.classList.toggle('active', i < index));
+    stepDots[i].classList.toggle('done', i < index || (isLast && i === index));
+    stepDots[i].classList.toggle('active', i === index);
+    if (i === index) {
+      stepDots[i].setAttribute('aria-current', 'step');
+    } else {
+      stepDots[i].removeAttribute('aria-current');
+    }
+  }
+
+  for (let i = 0; i < stepLinks.length; i++) {
+    stepLinks[i].classList.toggle('active', i < index);
+  }
 
   if (step === 3) {
-    if (visitor) $('verified-user-label').textContent = visitor.name + ' (' + maskMobile(visitor.mobile) + ')';
+    if (visitor) {
+      $('verified-user-label').textContent = visitor.name + ' (' + maskMobile(visitor.mobile) + ')';
+    }
     updateSlotOptions();
   }
 
-  // Move focus to the new step's heading for screen-reader users
-  if (stepRendered) {
+  /* Move focus to the current step heading for accessibility */
+  if (!firstDraw) {
     const heading = stepPanels[index].querySelector('h2');
     if (heading) {
       heading.setAttribute('tabindex', '-1');
       heading.focus();
     }
   }
-  stepRendered = true;
+  firstDraw = false;
 
   renderRequests();
 }
 
-
-/* 4. FORM SETUP (patients, date, slots) */
-
+/* Fill the patient selection dropdown */
 function fillPatientList() {
-  const options = loadData().patients.map((patient) =>
-    '<option value="' + patient.id + '">' + escapeHtml(patient.name) + ' (' + escapeHtml(patient.ward) +
-    ' - Rm ' + escapeHtml(patient.room) + ')</option>');
+  const data = loadData();
+  let html = '<option value="">Choose a patient</option>';
 
-  $('booking-patient').innerHTML = '<option value="">Choose a patient</option>' + options.join('');
+  for (let i = 0; i < data.patients.length; i++) {
+    const patient = data.patients[i];
+    html += '<option value="' + patient.id + '">' + escapeHtml(patient.name) + ' (' +
+            escapeHtml(patient.ward) + ' - Rm ' + escapeHtml(patient.room) + ')</option>';
+  }
+  $('booking-patient').innerHTML = html;
 }
 
-/* Slots this visitor already booked on the chosen date. */
-function bookedSlots(date) {
-  if (!visitor || !date) return [];
-  return loadData().visits
-    .filter((v) => v.mobile === visitor.mobile && v.date === date && isOpenStatus(v.status))
-    .map((v) => v.slot);
+/* Retrieve slots already booked by this visitor on the selected date */
+function getBookedSlots(date) {
+  const booked = [];
+  if (!visitor || !date) {
+    return booked;
+  }
+
+  const data = loadData();
+  for (let i = 0; i < data.visits.length; i++) {
+    const visit = data.visits[i];
+    if (visit.mobile === visitor.mobile && visit.date === date && isOpen(visit.status)) {
+      booked.push(visit.slot);
+    }
+  }
+  return booked;
 }
 
-function slotOption(slot, date, booked) {
-  const isBooked = booked.includes(slot);
-  const isPast   = slotHasEnded(date, slot);
-  const note     = isBooked ? ' (Already Booked)' : (isPast ? ' (Time passed)' : '');
-
-  return '<option value="' + slot + '"' + (isBooked || isPast ? ' disabled' : '') + '>' +
-         slot + note + '</option>';
-}
-
+/* Rebuild the slot dropdown and disable unavailable or passed slots */
 function updateSlotOptions() {
-  const date   = $('booking-date').value;
+  const date = $('booking-date').value;
   const select = $('booking-slot');
-  const booked = bookedSlots(date);
+  const booked = getBookedSlots(date);
   const previous = select.value;
 
-  select.innerHTML = '<option value="">Choose a slot</option>' +
-    VISIT_SLOTS.map((slot) => slotOption(slot, date, booked)).join('');
+  let html = '<option value="">Choose a slot</option>';
+  for (let i = 0; i < VISIT_SLOTS.length; i++) {
+    const slot = VISIT_SLOTS[i];
+    const isBooked = booked.includes(slot);
+    const isPast = slotHasEnded(date, slot);
 
-  // Keep the earlier choice if it is still available
+    let note = '';
+    if (isBooked) {
+      note = ' (Already Booked)';
+    } else if (isPast) {
+      note = ' (Time passed)';
+    }
+
+    let disabled = '';
+    if (isBooked || isPast) {
+      disabled = ' disabled';
+    }
+    html += '<option value="' + slot + '"' + disabled + '>' + slot + note + '</option>';
+  }
+  select.innerHTML = html;
+
+  /* Retain prior selection if still valid */
   if (VISIT_SLOTS.includes(previous) && !booked.includes(previous) && !slotHasEnded(date, previous)) {
     select.value = previous;
   }
 }
 
+/* Set up the date field constraints and default value */
 function setupDateField() {
   const dateField = $('booking-date');
   dateField.min = today();
 
-  // After the last slot of the day, start on tomorrow instead of an empty list
-  const allEnded = VISIT_SLOTS.every((slot) => slotHasEnded(today(), slot));
-  dateField.value = allEnded
-    ? tomorrow()
-    : today();
+  /* Default to tomorrow if all visiting slots for today have ended */
+  let allEnded = true;
+  for (let i = 0; i < VISIT_SLOTS.length; i++) {
+    if (!slotHasEnded(today(), VISIT_SLOTS[i])) {
+      allEnded = false;
+    }
+  }
+
+  if (allEnded) {
+    dateField.value = tomorrow();
+  } else {
+    dateField.value = today();
+  }
   updateSlotOptions();
 }
 
-
-/* 5. RENDERING OF "MY REQUESTS" */
-
+/* Render digital visitor pass card for approved and active visits */
 function passCard(visit, patient) {
   return '' +
     '<article class="pass" aria-label="Visitor pass">' +
@@ -147,17 +156,24 @@ function passCard(visit, patient) {
     '</article>';
 }
 
+/* Render single request card with status and actions */
 function requestCard(visit, data) {
-  const patient   = findPatient(data, visit.patientId);
-  const hasPass   = STATUS_GROUPS.hasPass.includes(visit.status);
-  const canCancel = canTransition(visit.status, STATUS.CANCELLED);
+  const patient = findPatient(data, visit.patientId);
 
-  const reasonHtml = visit.reason
-    ? '<p><strong>Reason:</strong> ' + escapeHtml(visit.reason) + '</p>'
-    : '';
-  const cancelHtml = canCancel
-    ? '<button class="btn danger small" data-cancel="' + visit.id + '">Cancel request</button>'
-    : '';
+  let reasonHtml = '';
+  if (visit.reason) {
+    reasonHtml = '<p><strong>Reason:</strong> ' + escapeHtml(visit.reason) + '</p>';
+  }
+
+  let cancelHtml = '';
+  if (canChange(visit.status, STATUS.CANCELLED)) {
+    cancelHtml = '<button class="btn danger small" data-cancel="' + visit.id + '">Cancel request</button>';
+  }
+
+  let passHtml = '';
+  if (hasPass(visit.status)) {
+    passHtml = passCard(visit, patient);
+  }
 
   return '' +
     '<article class="card visit">' +
@@ -172,37 +188,34 @@ function requestCard(visit, data) {
         reasonHtml +
         cancelHtml +
       '</div>' +
-      (hasPass ? passCard(visit, patient) : '') +
+      passHtml +
     '</article>';
 }
 
-/* Visit cards as a real list, so screen readers announce "list, N items". */
-function requestList(visits, data) {
-  return '<ul class="request-items">' +
-    visits.map((visit) => '<li>' + requestCard(visit, data) + '</li>').join('') +
-  '</ul>';
-}
-
+/* Update footer toggle and count indicator for visit requests */
 function renderRecordsFooter(total) {
-  const footer  = $('visitor-records-footer');
+  const footer = $('visitor-records-footer');
   const hasMore = total > RECORD_PREVIEW_COUNT;
-  if (!footer) return;
 
   footer.hidden = !hasMore;
-  if (!hasMore) return;
+  if (!hasMore) {
+    return;
+  }
 
-  $('visitor-records-count-text').textContent = showAllRecords
-    ? 'Showing all ' + total + ' requests'
-    : 'Showing ' + RECORD_PREVIEW_COUNT + ' of ' + total + ' requests';
-  $('toggle-record-text').textContent = showAllRecords
-    ? 'Show less'
-    : 'Show more (' + (total - RECORD_PREVIEW_COUNT) + ' hidden)';
-  $('toggle-record-icon').className = showAllRecords
-    ? 'fa-solid fa-chevron-up'
-    : 'fa-solid fa-chevron-down';
+  if (showAllRecords) {
+    $('visitor-records-count-text').textContent = 'Showing all ' + total + ' requests';
+    $('toggle-record-text').textContent = 'Show less';
+    $('toggle-record-icon').textContent = '▲';
+  } else {
+    $('visitor-records-count-text').textContent = 'Showing ' + RECORD_PREVIEW_COUNT + ' of ' + total + ' requests';
+    $('toggle-record-text').textContent = 'Show more (' + (total - RECORD_PREVIEW_COUNT) + ' hidden)';
+    $('toggle-record-icon').textContent = '▼';
+  }
 }
 
+/* Render all requests and passes for the verified visitor */
 function renderRequests() {
+  expireStaleVisits();
   const container = $('request-list');
   const data = loadData();
 
@@ -212,7 +225,13 @@ function renderRequests() {
     return;
   }
 
-  const myVisits = data.visits.filter((visit) => visit.mobile === visitor.mobile).reverse();
+  /* Filter visits matching this visitor mobile */
+  const myVisits = [];
+  for (let i = data.visits.length - 1; i >= 0; i--) {
+    if (data.visits[i].mobile === visitor.mobile) {
+      myVisits.push(data.visits[i]);
+    }
+  }
 
   if (myVisits.length === 0) {
     renderRecordsFooter(0);
@@ -220,15 +239,22 @@ function renderRequests() {
     return;
   }
 
-  const shown = showAllRecords ? myVisits : myVisits.slice(0, RECORD_PREVIEW_COUNT);
-  container.innerHTML = requestList(shown, data);
+  let howMany = myVisits.length;
+  if (!showAllRecords && howMany > RECORD_PREVIEW_COUNT) {
+    howMany = RECORD_PREVIEW_COUNT;
+  }
+
+  let html = '<ul class="request-items">';
+  for (let i = 0; i < howMany; i++) {
+    html += '<li>' + requestCard(myVisits[i], data) + '</li>';
+  }
+  html += '</ul>';
+
+  container.innerHTML = html;
   renderRecordsFooter(myVisits.length);
 }
 
-
-/* 6. ACTIONS (one per step) */
-
-/* Step 1: check the details and create the demo OTP. */
+/* Step 1: Validate contact details and generate demo OTP */
 function submitContact(event) {
   event.preventDefault();
 
@@ -243,10 +269,10 @@ function submitContact(event) {
 
   setStep(2);
   $('visitor-otp').focus();
-  showToast('Demo OTP generated: ' + currentOtp);
+  showToast('Demo OTP generated: ' + currentOtp, false);
 }
 
-/* Step 2: verify the OTP and remember the visitor for this session. */
+/* Step 2: Verify submitted OTP and save session */
 function submitOtp(event) {
   event.preventDefault();
 
@@ -257,15 +283,15 @@ function submitOtp(event) {
 
   visitor = {
     name: $('visitor-fullname').value.trim(),
-    mobile: $('visitor-mobile').value.trim(),
+    mobile: $('visitor-mobile').value.trim()
   };
   sessionStorage.setItem('carepass_visitor', JSON.stringify(visitor));
 
   setStep(3);
-  showToast('Verified! Now select the patient and visiting slot.');
+  showToast('Verified! Now select the patient and visiting slot.', false);
 }
 
-/* Step 3: SUBMIT THE SLOT. Creates a PENDING visit -> staff badge turns on. */
+/* Step 3: Submit booking request for staff review */
 function submitBooking(event) {
   event.preventDefault();
 
@@ -274,11 +300,11 @@ function submitBooking(event) {
     mobile: visitor.mobile,
     patientId: $('booking-patient').value,
     date: $('booking-date').value,
-    slot: $('booking-slot').value,
+    slot: $('booking-slot').value
   });
 
   if (result.ok) {
-    showToast('Visit request submitted! Staff have been notified.');
+    showToast('Visit request submitted! Staff have been notified.', false);
     setStep(4);
     bookingForm.reset();
     setupDateField();
@@ -288,14 +314,16 @@ function submitBooking(event) {
   renderRequests();
 }
 
+/* Cancel an open visit request */
 function cancelRequest(visitId) {
-  const result = setStatus(visitId, STATUS.CANCELLED);
+  const result = setStatus(visitId, STATUS.CANCELLED, 'Visitor', '');
 
   showResult(result, 'Request cancelled.');
   renderRequests();
   updateSlotOptions();
 }
 
+/* Reset session to allow entering a different visitor contact */
 function changeNumber() {
   visitor = null;
   sessionStorage.removeItem('carepass_visitor');
@@ -303,54 +331,51 @@ function changeNumber() {
   $('visitor-mobile').value = '';
   $('visitor-otp').value = '';
   setStep(1);
-  showToast('Switched to visitor details.');
+  showToast('Switched to visitor details.', false);
 }
 
-
-/* 7. EVENT LISTENERS */
-
-/* Forms */
+/* Event listeners */
 contactForm.addEventListener('submit', submitContact);
 otpForm.addEventListener('submit', submitOtp);
 bookingForm.addEventListener('submit', submitBooking);
 
-/* Step buttons */
-$('btn-back-to-contact').addEventListener('click', () => setStep(1));
-$('btn-back-to-otp').addEventListener('click', () => setStep(2));
+$('btn-back-to-contact').addEventListener('click', function () { setStep(1); });
+$('btn-back-to-otp').addEventListener('click', function () { setStep(2); });
 $('btn-change-number').addEventListener('click', changeNumber);
-$('btn-book-another').addEventListener('click', () => setStep(3));
+$('btn-book-another').addEventListener('click', function () { setStep(3); });
 
-/* Booking form */
 $('booking-date').addEventListener('change', updateSlotOptions);
 
-/* Request list: cancel buttons + show more / less */
-$('request-list').addEventListener('click', (event) => {
+/* Handle delegation for dynamic cancel buttons */
+$('request-list').addEventListener('click', function (event) {
   const button = event.target.closest('[data-cancel]');
-  if (button) cancelRequest(button.dataset.cancel);
+  if (button) {
+    cancelRequest(button.dataset.cancel);
+  }
 });
 
-$('btn-toggle-visitor-records').addEventListener('click', () => {
+$('btn-toggle-visitor-records').addEventListener('click', function () {
   showAllRecords = !showAllRecords;
   renderRequests();
 });
 
-/* LIVE UPDATE: staff approved / rejected a request in another tab. */
-window.addEventListener('storage', (event) => {
-  if (event.key !== STORAGE_KEY) return;
-  renderRequests();
-  updateSlotOptions();
+/* Live update when request status changes in another tab */
+window.addEventListener('storage', function (event) {
+  if (event.key === STORAGE_KEY) {
+    renderRequests();
+    updateSlotOptions();
+  }
 });
 
-
-/* 8. START-UP */
-
+/* Initialize visitor portal */
 fillPatientList();
 setupDateField();
 
 if (visitor) {
   $('visitor-fullname').value = visitor.name;
   $('visitor-mobile').value = visitor.mobile;
-  setStep(3);                      // resume on the booking step
+  setStep(3);
 } else {
   setStep(1);
 }
+

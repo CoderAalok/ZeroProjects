@@ -1,9 +1,3 @@
-/* ==========================================================================
-   home.css - CarePass Visitor Management
-   Home / Landing Page Styles (Hero Section, Portal Selection Grid,
-   "How It Works" Steps, Demo Notes, and Home Responsive)
-   ========================================================================== */
-
 /* 1. HERO SECTION ---------------------------------------------------------- */
 .hero {
   display: grid;

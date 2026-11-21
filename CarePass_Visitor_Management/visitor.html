@@ -5,13 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Visitor Portal | CarePass Visitor Management</title>
   
-  <!-- Linked google apis-->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet">
   
-  <!-- Font Awesome 6.5 Icon Library -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/portal-split.css">
   <link rel="stylesheet" href="css/visitor.css">
@@ -45,7 +39,7 @@
 
           <div class="panel-highlights">
             <div class="highlight-item">
-              <i class="fa-regular fa-clock" aria-hidden="true"></i>
+              <svg class="icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/></svg>
               <div>
                 <strong>Standard Visiting Hours</strong>
                 <span>09:00 AM &ndash; 09:00 PM daily</span>
@@ -53,15 +47,15 @@
             </div>
 
             <div class="highlight-item">
-              <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+              <svg class="icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7 7 0 0 1-1.048-.625 11.8 11.8 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 63 63 0 0 1 5.072.56"/></svg>
               <div>
                 <strong>Verified Entry Pass</strong>
-                <span>Digital QR pass for contactless security verification</span>
+                <span>Digital pass with a unique ID for quick verification at the security desk</span>
               </div>
             </div>
 
             <div class="highlight-item">
-              <i class="fa-solid fa-bed-pulse" aria-hidden="true"></i>
+              <svg class="icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h13A1.5 1.5 0 0 1 16 3.5v8A1.5 1.5 0 0 1 14.5 13H8.5v1H10a.5.5 0 0 1 0 1H6a.5.5 0 0 1 0-1h1.5v-1H1.5A1.5 1.5 0 0 1 0 11.5zM1.5 3a.5.5 0 0 0-.5.5V9h14V3.5a.5.5 0 0 0-.5-.5zm13 7H1.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5"/></svg>
               <div>
                 <strong>Patient Protection</strong>
                 <span>One-at-a-time ICU visits &amp; general ward capacity</span>
@@ -145,7 +139,7 @@
 
             <form id="otp-form" autocomplete="off">
               <p class="hint otp-hint">
-                <i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i> Demo code: <strong id="otp-display" class="otp-code"></strong>
+                <svg class="icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/><path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/></svg> Demo code: <strong id="otp-display" class="otp-code"></strong>
               </p>
 
               <label>Enter 6-digit OTP
@@ -206,7 +200,7 @@
           <div class="flow-step" id="step-done" hidden>
             <div class="success-celebration">
               <div class="success-icon-box">
-                <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                <svg class="icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.878 12.14a.733.733 0 0 1-1.065.02L3.21 8.572a.733.733 0 0 1 0-1.049.733.733 0 0 1 1.048 0L7.33 10.59l5.406-6.62z"/></svg>
               </div>
               <h2>Visit Request Submitted!</h2>
               <p>Staff will review your request. Your digital pass and real-time status are shown below.</p>
@@ -226,7 +220,7 @@
     <!-- Bottom Section: Visitation Requests & Digital Passes (Limited to 2-3 records with Show More toggle) -->
     <section id="visitor-requests-section" class="visitor-bottom-records-card" aria-labelledby="requests-heading">
       <div class="page-bar">
-        <h2 id="requests-heading"><i class="fa-solid fa-ticket" aria-hidden="true"></i> My Visit Requests &amp; Digital Passes</h2>
+        <h2 id="requests-heading"><svg class="icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M5 0a1 1 0 0 0-1 1v1H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-1-1M8 5a2 2 0 1 1 0 4A2 2 0 0 1 8 5M3 11c0-1.333 1.667-3 5-3s5 1.667 5 3z"/></svg> My Visit Requests &amp; Digital Passes</h2>
       </div>
 
       <div id="request-list"></div>
@@ -237,7 +231,7 @@
         </div>
         <div>
           <button class="btn ghost small" id="btn-toggle-visitor-records" type="button">
-            <i class="fa-solid fa-chevron-down" id="toggle-record-icon"></i> <span id="toggle-record-text">Show more</span>
+            <span id="toggle-record-icon" aria-hidden="true">▼</span> <span id="toggle-record-text">Show more</span>
           </button>
         </div>
       </div>
@@ -253,19 +247,15 @@
       <address class="footer-info">
         <p class="footer-title"><strong>City General Hospital</strong><span aria-hidden="true">•</span> Visitor Management Desk</p>
         <div class="footer-details">
-          <p><i class="fa-solid fa-phone" aria-hidden="true"></i> <span>Emergency Helpline</span> <a href="tel:+9118001234567">+91 1800-123-4567</a></p>
+          <p><svg class="icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.483-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.287.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58z"/></svg> <span>Emergency Helpline</span> <a href="tel:+9118001234567">+91 1800-123-4567</a></p>
         </div>
-        <p class="footer-copyright">&copy; 2026 City General Hospital. All rights reserved.</p>
       </address>
+      <p class="footer-copyright">&copy; 2026 City General Hospital. All rights reserved.</p>
     </div>
   </footer>
 
-  <!-- Load order matters: settings -> utilities -> storage -> rules -> display helpers -> this page -->
-  <script src="js/config.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/rules.js"></script>
-  <script src="js/helpers.js"></script>
+  <!-- common.js (shared code) must load before the page's own script -->
+  <script src="js/common.js"></script>
   <script src="js/visitor.js"></script>
 </body>
 </html>

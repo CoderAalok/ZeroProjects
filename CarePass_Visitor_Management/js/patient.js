@@ -1,28 +1,21 @@
-/* ==========================================================================
-   patient.js - Patient portal (visitor phone numbers are never shown)
+/* Patient portal - displays patient details and visit records */
 
-   FILE ORDER: 1. DOM references  2. Helpers  3. Rendering
-               4. Event listeners  5. Start-up
-   ========================================================================== */
-
-
-/* 1. DOM REFERENCES */
 const patientPicker = $('patient-picker');
 
-
-/* 2. HELPERS */
-function countByStatus(visits, statuses) {
-  return visits.filter((visit) => statuses.includes(visit.status)).length;
-}
-
-
-/* 3. RENDERING */
+/* Fill the "Select Patient Profile" dropdown */
 function fillPatientPicker() {
-  patientPicker.innerHTML = loadData().patients
-    .map((patient) => '<option value="' + patient.id + '">' + escapeHtml(patient.name) + ' (' + escapeHtml(patient.id) + ')</option>')
-    .join('');
+  const data = loadData();
+  let html = '';
+
+  for (let i = 0; i < data.patients.length; i++) {
+    const patient = data.patients[i];
+    html += '<option value="' + patient.id + '">' + escapeHtml(patient.name) +
+            ' (' + escapeHtml(patient.id) + ')</option>';
+  }
+  patientPicker.innerHTML = html;
 }
 
+/* Render one table row for a visit */
 function visitorRow(visit) {
   return '<tr>' +
     '<td><strong>' + escapeHtml(visit.visitorName) + '</strong></td>' +
@@ -34,37 +27,64 @@ function visitorRow(visit) {
   '</tr>';
 }
 
+/* Draw the whole page for the selected patient */
 function render() {
+  expireStaleVisits();
   const data = loadData();
-  const patient = findPatient(data, patientPicker.value);
-  const visits = data.visits.filter((visit) => visit.patientId === patientPicker.value).reverse();
+  const patientId = patientPicker.value;
+  const patient = findPatient(data, patientId);
 
-  // Patient details card
-  $('patient-view-id').textContent   = patient.id || '-';
+  /* Collect visits for this patient (newest first) and count statistics */
+  let rows = '';
+  let inside = 0;
+  let upcoming = 0;
+  let past = 0;
+
+  for (let i = data.visits.length - 1; i >= 0; i--) {
+    const visit = data.visits[i];
+    if (visit.patientId !== patientId) {
+      continue;
+    }
+
+    rows += visitorRow(visit);
+
+    if (visit.status === STATUS.ACTIVE) {
+      inside = inside + 1;
+    } else if (visit.status === STATUS.PENDING || visit.status === STATUS.APPROVED) {
+      upcoming = upcoming + 1;
+    } else {
+      past = past + 1;
+    }
+  }
+
+  if (rows === '') {
+    rows = emptyRow(6, 'No visitor records found for this patient.');
+  }
+
+  /* Display patient details */
+  $('patient-view-id').textContent = patient.id || '-';
   $('patient-view-name').textContent = patient.name || '-';
   $('patient-view-ward').textContent = patient.ward || '-';
   $('patient-view-room').textContent = patient.room || '-';
 
-  // Stats
-  $('count-inside').textContent   = countByStatus(visits, [STATUS.ACTIVE]);
-  $('count-upcoming').textContent = countByStatus(visits, STATUS_GROUPS.upcoming);
-  $('count-past').textContent     = countByStatus(visits, STATUS_GROUPS.past);
-
-  // Visitors table
-  $('visitor-rows').innerHTML =
-    tableRowsOrEmpty(visits, visitorRow, 6, 'No visitor records found for this patient.');
+  /* Display count summary and visitor rows */
+  $('count-inside').textContent = inside;
+  $('count-upcoming').textContent = upcoming;
+  $('count-past').textContent = past;
+  $('visitor-rows').innerHTML = rows;
 }
 
-
-/* 4. EVENT LISTENERS */
+/* Event listeners */
 patientPicker.addEventListener('change', render);
 
-/* LIVE UPDATE: staff changed a visit in another tab. */
-window.addEventListener('storage', (event) => {
-  if (event.key === STORAGE_KEY) render();
+/* Live update when data changes in another browser tab */
+window.addEventListener('storage', function (event) {
+  if (event.key === STORAGE_KEY) {
+    render();
+  }
 });
 
-
-/* 5. START-UP */
+/* Initialize patient portal */
 fillPatientPicker();
 render();
+
