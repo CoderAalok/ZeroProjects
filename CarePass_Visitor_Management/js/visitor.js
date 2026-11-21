@@ -1,4 +1,4 @@
-/* ==========================================================================
+/* 
    visitor.js - Visitor portal (multi-step flow)
    Step 1: Contact -> Step 2: OTP -> Step 3: Patient & Slot -> Step 4: Done
 
@@ -15,12 +15,10 @@
    When the booking form is submitted (section 6, submitBooking) addVisit()
    saves a PENDING visit. The staff portal sees that change and shows its red
    notification badge.
-   ========================================================================== */
+   */
 
 
-/* ==========================================================================
-   1. CONSTANTS & STATE
-   ========================================================================== */
+/* 1. CONSTANTS & STATE */
 
 /* Limits such as RECORD_PREVIEW_COUNT live in config.js. */
 
@@ -30,9 +28,7 @@ let stepRendered = false;          // skip focus moves on the very first render
 let showAllRecords = false;        // request list: preview vs everything
 
 
-/* ==========================================================================
-   2. DOM REFERENCES
-   ========================================================================== */
+/* 2. DOM REFERENCES */
 
 const stepPanels = [$('step-contact'), $('step-otp'), $('step-booking'), $('step-done')];
 const stepDots   = [$('dot-1'), $('dot-2'), $('dot-3'), $('dot-4')];
@@ -43,9 +39,7 @@ const otpForm     = $('otp-form');
 const bookingForm = $('booking-form');
 
 
-/* ==========================================================================
-   3. STEP NAVIGATION
-   ========================================================================== */
+/* 3. STEP NAVIGATION */
 
 /* Show one step (1-4) and update the progress dots. */
 function setStep(step) {
@@ -81,9 +75,7 @@ function setStep(step) {
 }
 
 
-/* ==========================================================================
-   4. FORM SETUP (patients, date, slots)
-   ========================================================================== */
+/* 4. FORM SETUP (patients, date, slots) */
 
 function fillPatientList() {
   const options = loadData().patients.map((patient) =>
@@ -138,9 +130,7 @@ function setupDateField() {
 }
 
 
-/* ==========================================================================
-   5. RENDERING OF "MY REQUESTS"
-   ========================================================================== */
+/* 5. RENDERING OF "MY REQUESTS" */
 
 function passCard(visit, patient) {
   return '' +
@@ -153,7 +143,7 @@ function passCard(visit, patient) {
         '<dt>Slot</dt><dd>' + escapeHtml(visit.slot) + '</dd>' +
       '</dl>' +
       '<div class="barcode" aria-hidden="true"></div>' +
-      '<small>Show this ID at the security desk</small>' +
+      passBadge +
     '</article>';
 }
 
@@ -170,7 +160,7 @@ function requestCard(visit, data) {
     : '';
 
   return '' +
-    '<article class="card visit">' +
+    '<article class="card visit' + (visit.visitorExited && isActive ? ' visit-self-exited' : '') + '">' +
       '<div>' +
         '<header>' +
           '<h3>' + escapeHtml(patient.name) + '</h3>' + statusChip(visit.status) +
@@ -236,9 +226,7 @@ function renderRequests() {
 }
 
 
-/* ==========================================================================
-   6. ACTIONS (one per step)
-   ========================================================================== */
+/* 6. ACTIONS (one per step) */
 
 /* Step 1: check the details and create the demo OTP. */
 function submitContact(event) {
@@ -319,9 +307,7 @@ function changeNumber() {
 }
 
 
-/* ==========================================================================
-   7. EVENT LISTENERS
-   ========================================================================== */
+/* 7. EVENT LISTENERS */
 
 /* Forms */
 contactForm.addEventListener('submit', submitContact);
@@ -356,9 +342,7 @@ window.addEventListener('storage', (event) => {
 });
 
 
-/* ==========================================================================
-   8. START-UP
-   ========================================================================== */
+/* 8. START-UP */
 
 fillPatientList();
 setupDateField();

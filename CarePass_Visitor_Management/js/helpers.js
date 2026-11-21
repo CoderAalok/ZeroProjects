@@ -1,9 +1,3 @@
-/* ==========================================================================
-   helpers.js - Display helpers shared by the pages (they use the DOM).
-   Pure text/date helpers are in utils.js; saved data is in storage.js.
-   ========================================================================== */
-
-
 /* 1. FINDING ELEMENTS & FORMATTING */
 
 /* Shortcut for document.getElementById. */

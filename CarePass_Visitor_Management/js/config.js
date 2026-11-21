@@ -1,15 +1,3 @@
-/* ==========================================================================
-   config.js - Every setting you might want to change lives here.
-   No logic, no DOM. Loaded first on every page.
-
-   Quick recipes:
-     * Add or change a visiting slot ........ VISIT_SLOTS
-     * Change how many people may be inside .. WARD_INSIDE_LIMIT / DEFAULT_INSIDE_LIMIT
-     * Change the overstay alert time ........ OVERDUE_MINUTES
-     * Add a demo patient or staff login ..... SEED_PATIENTS / SEED_STAFF
-   ========================================================================== */
-
-
 /* ---------- Storage ---------- */
 
 /* Key used in the browser's localStorage. Change the suffix to wipe saved demo data. */
