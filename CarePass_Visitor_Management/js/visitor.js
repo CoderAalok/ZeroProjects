@@ -367,6 +367,14 @@ window.addEventListener('storage', function (event) {
   }
 });
 
+/* Periodic refresh so slots that pass while booking step is open become disabled */
+setInterval(function () {
+  if (!$('step-booking').hidden) {
+    $('booking-date').min = today();
+    updateSlotOptions();
+  }
+}, REFRESH_EVERY_MS);
+
 /* Initialize visitor portal */
 fillPatientList();
 setupDateField();

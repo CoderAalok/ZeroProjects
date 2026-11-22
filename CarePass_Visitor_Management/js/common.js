@@ -19,7 +19,8 @@ const VISIT_SLOTS = ['10:00 - 11:00', '14:00 - 15:00', '17:00 - 18:00', '18:00 -
 const ICU_LIMIT = 1;
 const NORMAL_LIMIT = 2;
 const OVERDUE_MINUTES = 60;
-const ENFORCE_SLOT_TIME = true;
+/* False for demonstration: staff can start a visit as soon as the request is approved and the pass ID is verified. In real deployment, set to true (entry allowed only from 15 minutes before the slot until it ends). */
+const ENFORCE_SLOT_TIME = false;
 const EARLY_ENTRY_MINUTES = 15;
 const LOG_PREVIEW_COUNT = 6;
 const RECORD_PREVIEW_COUNT = 3;

@@ -146,13 +146,10 @@ The application's main settings are available in:
 | `EARLY_ENTRY_MINUTES` | How early a visitor can enter before their slot |
 | `ENFORCE_SLOT_TIME` | Enables or disables slot-time validation |
 
-For demonstration purposes, set:
+### Demo behaviour
 
-```javascript
-ENFORCE_SLOT_TIME = false;
-```
-
-This allows staff to test visitor entry without waiting for the scheduled time slot.
+- **Immediate entry check-in (`ENFORCE_SLOT_TIME = false`):** Disabled for demonstration so staff can admit visitors as soon as their request is approved and their pass ID is verified, without waiting for the scheduled slot time. In real deployment, set this to `true` in `js/common.js` so entry is allowed only from 15 minutes before the slot starts until it ends.
+- **Dynamic slot updates:** While the visitor booking step is visible, a periodic timer running every `REFRESH_EVERY_MS` (30 seconds) resets the date field's minimum to `today()` and calls `updateSlotOptions()`, ensuring slots that pass while the page is open become disabled.
 
 ---
 
