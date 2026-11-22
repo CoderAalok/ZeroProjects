@@ -1,11 +1,11 @@
 # CarePass – Hospital Visitor Management System
 
-CarePass is a front-end hospital visitor management system built using **semantic HTML, CSS, and vanilla JavaScript**. It provides a digital process for managing hospital visits without requiring manual registration.
+CarePass is a front-end hospital visitor management system built using **semantic HTML, CSS, and JavaScript**. It provides a digital process for managing hospital visits without requiring manual registration.
 
 Visitors can request passes, staff can approve requests and manage visitor entry and exit, and patients can view their visitor information.
 
 > **Project Type:** Front-end college project  
-> **Technology:** HTML5, CSS3, Vanilla JavaScript  
+> **Technology:** HTML5, CSS3, JavaScript  
 > **Backend:** None  
 > **Database:** Browser Local Storage
 
@@ -63,7 +63,7 @@ The system implements the following rules:
 - Duplicate bookings for the same slot are not allowed.
 - Only one open request per patient per visitor per day is allowed.
 - Visitors already inside the hospital cannot create another booking.
-- Entry is permitted only within the booked time slot, starting 15 minutes before the scheduled time and ending when the slot expires.
+- Entry is permitted only within the booked time slot, starting 15 minutes before the scheduled time and ending when the slot expires. This check is switched off by default for demonstrations (`ENFORCE_SLOT_TIME = false`); see Demo behaviour below.
 - Pending and approved requests automatically become `EXPIRED` after their scheduled slot has passed.
 - ICU patients can have a maximum of **1 visitor at a time**.
 - Other wards can have a maximum of **2 visitors at a time**.
@@ -92,7 +92,7 @@ The system implements the following rules:
 |---|---|
 | HTML5 | Page structure and semantic elements |
 | CSS3 | Styling and responsive layouts |
-| Vanilla JavaScript | Application logic and interactions |
+| JavaScript | Application logic and interactions |
 | Local Storage | Persistent browser-side data storage |
 | Session Storage | Temporary browser session data |
 | DOM API | Dynamic page updates and interactions |
