@@ -1,0 +1,201 @@
+/* 1. STAFF OVERRIDES ------------------------------------------------------- */
+/* The sign-in title is a little larger than the visitor steps' titles. */
+.staff-frame-device .device-screen-header h2 {
+  font-size: 1.55rem;
+}
+
+.split-image-panel {
+  background-image: url('../images/hospital-reception.webp');
+}
+
+/* 2. PASSWORD TOGGLE ------------------------------------------------------- */
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.password-input-wrapper input {
+  padding-right: 48px;
+}
+
+.btn-toggle-password {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  font-size: 1.05rem;
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.btn-toggle-password:hover {
+  color: var(--teal-dark);
+  background-color: rgba(11, 122, 117, 0.08);
+}
+
+/* 3. STAFF SIGNED-IN BOX --------------------------------------------------- */
+#staff-signed-in-box {
+  margin-top: 20px;
+  padding: 14px 18px;
+  background: #e5fdec;
+  border: 1.5px solid #bbf7d0;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.signed-in-text {
+  font-size: 0.95rem;
+}
+
+.log-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field > label {
+  font-weight: 600;
+  font-size: 0.96rem;
+  color: var(--ink);
+}
+
+/* 4. CONTROL DESK LAYOUT --------------------------------------------------- */
+.section-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+/* 5. ENTRY CHECK ----------------------------------------------------------- */
+.inline-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+
+.inline-form label {
+  flex: 1 1 220px;
+}
+
+#entry-message {
+  display: block;
+  margin-top: 14px;
+  font-weight: 700;
+}
+
+#entry-message[data-ok="true"]  { color: var(--green); }
+#entry-message[data-ok="false"] { color: var(--red); }
+
+/* 6. RECORDS HEADER & SEARCH / STATUS FILTERS ------------------------------ */
+.records-header-group {
+  margin-bottom: 24px;
+}
+
+.records-header-group h2 {
+  font-size: 1.75rem;
+  margin: 0 0 16px;
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.records-filter-bar-below {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+
+.records-filter-bar-below .filter-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.records-filter-bar-below .filter-field:first-child {
+  width: 380px;
+  max-width: 100%;
+}
+
+.records-filter-bar-below .filter-field-status {
+  width: 220px;
+  max-width: 100%;
+}
+
+.filter-field-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink);
+  display: block;
+}
+
+.records-filter-bar-below input[type="search"],
+.records-filter-bar-below select {
+  width: 100%;
+  height: 48px;
+  padding: 10px 16px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: #ffffff;
+  font-size: 0.95rem;
+  color: var(--ink);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.records-filter-bar-below input[type="search"]:focus,
+.records-filter-bar-below select:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(11, 122, 117, 0.15);
+  outline: none;
+}
+
+/* 7. REJECT DIALOG MODAL --------------------------------------------------- */
+dialog {
+  width: min(480px, 92vw);
+  padding: 28px;
+  border: 0;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+dialog::backdrop {
+  background: rgba(13, 47, 49, 0.55);
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+/* 8. STAFF RESPONSIVE STYLES ----------------------------------------------- */
+@media (max-width: 600px) {
+  .records-filter-bar-below .filter-field:first-child,
+  .records-filter-bar-below .filter-field-status {
+    width: 100%;
+  }
+}

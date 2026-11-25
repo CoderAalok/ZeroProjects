@@ -1,0 +1,154 @@
+/* 1. TOP PATIENT HEADER: 2 STANDALONE INLINE CARDS ------------------------- */
+.patient-header-flex-container {
+  display: flex;
+  gap: 28px;
+  margin-bottom: 32px;
+  align-items: stretch;
+}
+
+/* 2. LEFT BLOCK CARD: PROFILE IMAGE & SWITCHER ----------------------------- */
+.patient-left-profile-block {
+  flex: 0 0 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  margin-bottom: 0;
+  background: #f0fdf4;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.patient-profile-img-box {
+  width: 130px;
+  height: 130px;
+  border: 3.5px solid #cbd5e1;
+  border-radius: 50%;
+  background: #ffffff;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 14px rgba(13, 47, 49, 0.08);
+}
+
+.patient-profile-img {
+  width: 104px;
+  height: 104px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.patient-switch-wrapper {
+  width: 100%;
+}
+
+.patient-picker-label {
+  display: block;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.patient-switch-btn-select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--teal);
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--ink);
+  font: 700 0.98rem var(--font-body);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+/* 3. RIGHT BLOCK CARD: PATIENT DETAILS ------------------------------------- */
+.patient-right-info-block {
+  flex: 1;
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 0;
+  background: #ffffff;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.patient-info-header-title h1 {
+  margin: 0;
+  font-size: 1.45rem;
+  color: var(--ink);
+}
+
+.divider {
+  border: 0;
+  height: 1px;
+  background: var(--line);
+  margin: 16px 0 22px;
+}
+
+/* 4. PATIENT SIMPLE DETAILS LIST ------------------------------------------- */
+.patient-simple-details-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px 32px;
+  margin: 0;
+}
+
+.simple-detail-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.detail-value {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* 5. PATIENT VISITORS TABLE SECTION ---------------------------------------- */
+.table-section {
+  margin-bottom: 24px;
+}
+
+/* 6. PATIENT RESPONSIVE STYLES --------------------------------------------- */
+@media (max-width: 980px) {
+  .patient-header-flex-container {
+    flex-direction: column;
+  }
+
+  .patient-left-profile-block {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  .patient-right-info-block {
+    padding: 26px 22px;
+  }
+}
+
+@media (max-width: 600px) {
+  .patient-simple-details-list {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}

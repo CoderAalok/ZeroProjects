@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Visitor Portal | CarePass Visitor Management</title>
+  
+  
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/portal-split.css">
+  <link rel="stylesheet" href="css/visitor.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="top-bar">
+    <a class="brand" href="index.html">
+      <img src="images/red-cross.png" alt="" class="brand-logo-img">
+      CarePass
+    </a>
+    <nav aria-label="Portals">
+      <a href="visitor.html" aria-current="page"><img src="images/visitor-icon.png" alt="" class="nav-icon" aria-hidden="true">Visitor</a>
+      <a href="staff.html"><img src="images/staff-icon.png" alt="" class="nav-icon" aria-hidden="true">Staff</a>
+      <a href="patient.html"><img src="images/patient-icon.png" alt="" class="nav-icon" aria-hidden="true">Patient</a>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- Split Layout: Left Reception Photo & Right Enlarged Mobile Frame with Step-by-Step Flow -->
+    <section class="portal-split-layout" aria-labelledby="visitor-portal-heading">
+      
+      <!-- Left Side: Modern Hospital Reception Image & Guidelines (Badge removed as requested) -->
+      <div class="split-image-panel">
+        <div class="image-panel-content">
+          <h1 id="visitor-portal-heading">Safe, Verified &amp; Efficient Hospital Visits</h1>
+          <p>Register online in four easy steps, verify with a mobile OTP, and walk in with your digital visitor pass.</p>
+
+          <div class="panel-highlights">
+            <div class="highlight-item">
+              <svg class="icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/></svg>
+              <div>
+                <strong>Standard Visiting Hours</strong>
+                <span>09:00 AM &ndash; 09:00 PM daily</span>
+              </div>
+            </div>
+
+            <div class="highlight-item">
+              <svg class="icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7 7 0 0 1-1.048-.625 11.8 11.8 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 63 63 0 0 1 5.072.56"/></svg>
+              <div>
+                <strong>Verified Entry Pass</strong>
+                <span>Digital pass with a unique ID for quick verification at the security desk</span>
+              </div>
+            </div>
+
+            <div class="highlight-item">
+              <svg class="icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h13A1.5 1.5 0 0 1 16 3.5v8A1.5 1.5 0 0 1 14.5 13H8.5v1H10a.5.5 0 0 1 0 1H6a.5.5 0 0 1 0-1h1.5v-1H1.5A1.5 1.5 0 0 1 0 11.5zM1.5 3a.5.5 0 0 0-.5.5V9h14V3.5a.5.5 0 0 0-.5-.5zm13 7H1.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5"/></svg>
+              <div>
+                <strong>Patient Protection</strong>
+                <span>One-at-a-time ICU visits &amp; general ward capacity</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Side: Enlarged Device Frame with Step Indicator (User Flow) -->
+      <div class="split-frame-wrapper">
+        
+        <!-- Step Indicator Dots above Device Frame -->
+        <ol class="split-step-indicator" id="step-indicator" aria-label="Visit registration steps">
+          <li class="step-dot active" id="dot-1" aria-current="step">
+            <span class="step-num" aria-hidden="true">1</span>
+            <span class="step-label">Contact</span>
+          </li>
+          <li class="step-connector" id="conn-1" aria-hidden="true"></li>
+          <li class="step-dot" id="dot-2">
+            <span class="step-num" aria-hidden="true">2</span>
+            <span class="step-label">OTP</span>
+          </li>
+          <li class="step-connector" id="conn-2" aria-hidden="true"></li>
+          <li class="step-dot" id="dot-3">
+            <span class="step-num" aria-hidden="true">3</span>
+            <span class="step-label">Patient &amp; Slot</span>
+          </li>
+          <li class="step-connector" id="conn-3" aria-hidden="true"></li>
+          <li class="step-dot" id="dot-4">
+            <span class="step-num" aria-hidden="true">4</span>
+            <span class="step-label">Done</span>
+          </li>
+        </ol>
+
+        <!-- Enlarged Mobile Device Frame -->
+        <div class="mobile-frame-device">
+          <div class="device-notch" aria-hidden="true"></div>
+
+          <!-- Step 1: Input Name & Contact -->
+          <div class="flow-step" id="step-contact">
+            <div class="device-screen-header">
+              <img src="images/visitor-icon.png" alt="" class="card-hero-icon" aria-hidden="true">
+              <h2>Visitor details</h2>
+              <p class="hint">Enter your full name and 10-digit mobile number</p>
+            </div>
+
+            <form id="contact-form" autocomplete="off">
+              <label>Full name
+                <input 
+                  name="fullname"
+                  id="visitor-fullname"
+                  required minlength="2"
+                  autocomplete="off"
+                  placeholder="e.g. Sana Khan"
+                >
+              </label>
+              
+              <label>Mobile number
+                <input name="mobile"
+                 id="visitor-mobile"
+                 required pattern="[0-9]{10}"
+                 inputmode="numeric"
+                 maxlength="10"
+                 placeholder="10 digits (e.g. 9988776655)"
+                 autocomplete="off"
+                >
+              </label>
+
+              <button class="btn full" type="submit" id="btn-to-otp">Send OTP &rarr;</button>
+            </form>
+          </div>
+
+          <!-- Step 2: OTP Verification (Clean, green container removed as requested) -->
+          <div class="flow-step" id="step-otp" hidden>
+            <div class="device-screen-header">
+              <img src="images/visitor-icon.png" alt="" class="card-hero-icon" aria-hidden="true">
+              <h2>Verify OTP</h2>
+              <p class="hint">Confirmation code sent to your mobile</p>
+            </div>
+
+            <form id="otp-form" autocomplete="off">
+              <p class="hint otp-hint">
+                <svg class="icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/><path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/></svg> Demo code: <strong id="otp-display" class="otp-code"></strong>
+              </p>
+
+              <label>Enter 6-digit OTP
+                <input name="otp"
+                  id="visitor-otp"
+                  pattern="[0-9]{6}"
+                  inputmode="numeric"
+                  maxlength="6"
+                  placeholder="Enter 6-digit OTP"
+                  required autocomplete="off"
+                >
+              </label>
+
+              <div class="step-actions">
+                <button class="btn ghost" type="button" id="btn-back-to-contact">&larr; Back</button>
+                <button class="btn" type="submit" id="btn-verify-otp">Verify &amp; Continue &rarr;</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Step 3: Patient Select & Select Date & Time -->
+          <div class="flow-step" id="step-booking" hidden>
+            <div class="device-screen-header">
+              <h2>Request a visit</h2>
+              <p class="hint">Select the patient and preferred visiting time slot</p>
+            </div>
+
+            <div class="flow-user-badge">
+              <span>Visitor: <strong id="verified-user-label"></strong></span>
+              <button class="btn ghost small" id="btn-change-number" type="button">Change</button>
+            </div>
+
+            <form id="booking-form">
+              <label>Select patient
+                <select name="patientId" id="booking-patient" required></select>
+              </label>
+
+              <div class="form-row">
+                <label>Visit date
+                  <input type="date" name="date" id="booking-date" required>
+                </label>
+
+                <label>Time slot
+                  <select name="slot" id="booking-slot" required>
+                    <option value="">Choose a slot</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="step-actions">
+                <button class="btn ghost" type="button" id="btn-back-to-otp">&larr; Re-verify</button>
+                <button class="btn" type="submit" id="btn-submit-booking">Submit Request &rarr;</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Step 4: Done Confirmation -->
+          <div class="flow-step" id="step-done" hidden>
+            <div class="success-celebration">
+              <div class="success-icon-box">
+                <svg class="icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.878 12.14a.733.733 0 0 1-1.065.02L3.21 8.572a.733.733 0 0 1 0-1.049.733.733 0 0 1 1.048 0L7.33 10.59l5.406-6.62z"/></svg>
+              </div>
+              <h2>Visit Request Submitted!</h2>
+              <p>Staff will review your request. Your digital pass and real-time status are shown below.</p>
+
+              <div class="step-actions">
+                <button class="btn ghost full" type="button" id="btn-book-another">Book another visit</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Bottom Section: Visitation Requests & Digital Passes (Limited to 2-3 records with Show More toggle) -->
+    <section id="visitor-requests-section" class="visitor-bottom-records-card" aria-labelledby="requests-heading">
+      <div class="page-bar">
+        <h2 id="requests-heading"><svg class="icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M5 0a1 1 0 0 0-1 1v1H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-1-1M8 5a2 2 0 1 1 0 4A2 2 0 0 1 8 5M3 11c0-1.333 1.667-3 5-3s5 1.667 5 3z"/></svg> My Visit Requests &amp; Digital Passes</h2>
+      </div>
+
+      <div id="request-list"></div>
+
+      <div class="audit-log-footer-bar" id="visitor-records-footer" hidden>
+        <div class="log-count-indicator">
+          <span id="visitor-records-count-text">Showing 3 of 3 requests</span>
+        </div>
+        <div>
+          <button class="btn ghost small" id="btn-toggle-visitor-records" type="button">
+            <span id="toggle-record-icon" aria-hidden="true">▼</span> <span id="toggle-record-text">Show more</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <output id="toast"></output>
+
+  <!-- Site Footer (Matched to first project) -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <address class="footer-info">
+        <p class="footer-title"><strong>City General Hospital</strong><span aria-hidden="true">•</span> Visitor Management Desk</p>
+        <div class="footer-details">
+          <p><svg class="icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.483-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.287.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58z"/></svg> <span>Emergency Helpline</span> <a href="tel:+9118001234567">+91 1800-123-4567</a></p>
+        </div>
+      </address>
+      <p class="footer-copyright">&copy; 2026 City General Hospital. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- common.js (shared code) must load before the page's own script -->
+  <script src="js/common.js"></script>
+  <script src="js/visitor.js"></script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+/* 1. SPLIT PORTAL LAYOUT & RECEPTION PANEL --------------------------------- */
+.portal-split-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #ffffff;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 16px 45px rgba(13, 47, 49, 0.08);
+  margin: 12px auto 32px;
+  min-height: 560px;
+}
+
+.split-image-panel {
+  background-size: cover;
+  background-position: center center;
+  position: relative;
+  padding: 36px 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.split-image-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(13, 47, 49, 0.88) 0%, rgba(11, 122, 117, 0.75) 50%, rgba(15, 23, 42, 0.65) 100%);
+  z-index: 1;
+}
+
+.image-panel-content {
+  position: relative;
+  z-index: 2;
+  max-width: 560px;
+}
+
+.split-image-panel h1,
+.split-image-panel h2 {
+  font-size: clamp(1.6rem, 2.2vw, 2.1rem);
+  color: #ffffff;
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+
+.split-image-panel p {
+  font-size: 0.98rem;
+  color: #d1fae5;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.panel-highlights {
+  display: grid;
+  gap: 12px;
+}
+
+.highlight-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+  background: rgba(13, 47, 49, 0.45);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+}
+
+.highlight-item i {
+  font-size: 1.3rem;
+  color: #5eead4;
+  width: 28px;
+  text-align: center;
+}
+
+.highlight-item div {
+  display: flex;
+  flex-direction: column;
+}
+
+.highlight-item strong {
+  font-size: 0.94rem;
+  color: #ffffff;
+}
+
+.highlight-item span {
+  font-size: 0.84rem;
+  color: #99f6e4;
+}
+
+/* 2. FRAME WRAPPER & STEP INDICATOR ---------------------------------------- */
+.split-frame-wrapper {
+  background: #f1f5f9;
+  padding: 28px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid var(--line);
+}
+
+.split-frame-wrapper .split-step-indicator,
+.split-frame-wrapper .mobile-frame-device {
+  margin-left: auto;
+  margin-right: 14px;
+}
+
+ol.split-step-indicator {
+  list-style: none;
+  margin-top: 0;
+  padding: 0;
+}
+
+.split-step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 16px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.step-dot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.step-num {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #cbd5e1;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+}
+
+.step-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.step-connector {
+  flex: 1;
+  height: 3px;
+  background: #cbd5e1;
+  margin-top: -16px;
+  min-width: 14px;
+  transition: background 0.2s ease;
+}
+
+.step-dot.active .step-num {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(11, 122, 117, 0.2);
+}
+
+.step-dot.active .step-label {
+  color: var(--teal-dark);
+}
+
+.step-dot.done .step-num {
+  background: var(--green);
+  border-color: var(--green);
+  color: #ffffff;
+}
+
+.step-connector.active {
+  background: var(--teal);
+}
+
+/* 3. MOBILE DEVICE FRAME --------------------------------------------------- */
+.mobile-frame-device {
+  width: 100%;
+  max-width: 480px;
+  background: #ffffff;
+  border-radius: 28px;
+  border: 2.5px solid #cbd5e1;
+  box-shadow: 0 20px 50px rgba(13, 47, 49, 0.12);
+  padding: 24px 28px 26px;
+  position: relative;
+  transition: min-height 0.25s ease;
+}
+
+.device-notch {
+  width: 50px;
+  height: 5px;
+  background: #cbd5e1;
+  border-radius: 99px;
+  margin: 0 auto 12px;
+}
+
+.device-screen-header {
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.device-screen-header h1 {
+  font-size: 1.55rem;
+  margin-bottom: 3px;
+}
+
+.device-screen-header h2 {
+  font-size: 1.4rem;
+  margin-bottom: 3px;
+}
+
+.device-screen-header .hint {
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+.card-hero-icon {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  margin: 0 auto 12px;
+  display: block;
+}
+
+/* 4. RESPONSIVE ------------------------------------------------------------- */
+@media (max-width: 980px) {
+  .portal-split-layout {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .split-image-panel {
+    padding: 40px 28px;
+  }
+
+  .split-frame-wrapper {
+    padding: 36px 20px;
+    border-left: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .split-frame-wrapper .split-step-indicator,
+  .split-frame-wrapper .mobile-frame-device {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .mobile-frame-device {
+    padding: 24px 18px 28px;
+    border-radius: 26px;
+  }
+
+  .step-label {
+    display: none;
+  }
+}

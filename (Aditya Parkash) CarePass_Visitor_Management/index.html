@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hospital Visitor Management System</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/home.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="top-bar">
+    <a class="brand" href="index.html">
+      <img src="images/red-cross.png" alt="" class="brand-logo-img">
+      CarePass
+    </a>
+    
+    <nav aria-label="Portals">
+      <a href="visitor.html"><img src="images/visitor-icon.png" alt="" class="nav-icon" aria-hidden="true">Visitor</a>
+      <a href="staff.html"><img src="images/staff-icon.png" alt="" class="nav-icon" aria-hidden="true">Staff</a>
+      <a href="patient.html"><img src="images/patient-icon.png" alt="" class="nav-icon" aria-hidden="true">Patient</a>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <h1 id="hero-title">Visiting a patient? Get your pass before you arrive.</h1>
+        <p>Verify your mobile number, pick a time slot, and walk in with a digital pass.
+           Security staff approve requests and the patient's ward stays protected.</p>
+        <div class="button-row">
+          <a class="btn" href="visitor.html">Request a visit</a>
+          <a class="btn ghost" href="staff.html">Staff sign in</a>
+        </div>
+      </div>
+
+      <article class="pass" aria-label="Sample visitor pass">
+        <h2>Visitor pass</h2>
+        <p class="pass-id">VST-1003</p>
+        <dl>
+          <dt>Visitor</dt><dd>Sana Khan</dd>
+          <dt>Patient</dt><dd>Amit Patel, Room 105-B</dd>
+          <dt>Slot</dt><dd>10:00 - 11:00</dd>
+        </dl>
+        
+        <div class="barcode" aria-hidden="true"></div>
+        <small>Show this ID at the security desk</small>
+      </article>
+    </section>
+
+    <section aria-labelledby="portals-title">
+      <h2 id="portals-title">Choose your portal</h2>
+      <div class="grid">
+        <a class="card" href="visitor.html">
+          <div class="card-icon-wrapper">
+            <img src="images/visitor-icon.png" alt="" class="portal-card-img">
+          </div>
+          <h3>Visitor Portal</h3>
+          <p>Verify with OTP, request a visit, track status and show your digital pass.</p>
+        </a>
+        <a class="card" href="staff.html">
+          <div class="card-icon-wrapper">
+            <img src="images/staff-icon.png" alt="" class="portal-card-img">
+          </div>
+          <h3>Staff / Admin Portal</h3>
+          <p>Approve requests, check passes at the gate and record patient visits.</p>
+        </a>
+        <a class="card" href="patient.html">
+          <div class="card-icon-wrapper">
+            <img src="images/patient-icon.png" alt="" class="portal-card-img">
+          </div>
+          <h3>Patient Portal</h3>
+          <p>See who is visiting you. Visitor phone numbers stay strictly protected.</p>
+        </a>
+      </div>
+    </section>
+
+    <section aria-labelledby="how-title">
+      <h2 id="how-title">How it works</h2>
+      <ol class="steps">
+        <li><strong>Request.</strong> Enter your details and verify the OTP.</li>
+        <li><strong>Approval.</strong> Staff review and approve or reject.</li>
+        <li><strong>Entry.</strong> Show your pass ID at the desk.</li>
+        <li><strong>Exit.</strong> Staff record your exit and close the visit.</li>
+      </ol>
+    </section>
+
+  </main>
+
+  <!-- Site Footer (Matched to first project) -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <address class="footer-info">
+        <p class="footer-title"><strong>City General Hospital</strong><span aria-hidden="true">•</span> Visitor Management Desk</p>
+        <div class="footer-details">
+          <p><svg class="icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.483-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.287.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58z"/></svg> <span>Emergency Helpline</span> <a href="tel:+9118001234567">+91 1800-123-4567</a></p>
+        </div>
+        
+      </address>
+      <p class="footer-copyright">&copy; 2026 City General Hospital. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
